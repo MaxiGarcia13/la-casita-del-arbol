@@ -1,0 +1,20 @@
+{
+  "name": "la-casita-del-arbol",
+  "version": "0.0.0",
+  "description": "La Casita del Árbol is a creative studio where we offer ceramic classes and sell handcrafted ceramic products.",
+  "homepage": "https://github.com/MaxiGarcia13/la-casita-del-arbol#readme",
+  "bugs": {
+    "url": "https://github.com/MaxiGarcia13/la-casita-del-arbol/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaxiGarcia13/la-casita-del-arbol.git"
+  },
+  "license": "ISC",
+  "author": "Maximiliano Daniel Garcia Mortigliengo",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
