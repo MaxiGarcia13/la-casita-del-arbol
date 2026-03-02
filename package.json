@@ -12,9 +12,18 @@
   },
   "license": "ISC",
   "author": "Maximiliano Daniel Garcia Mortigliengo",
-  "type": "commonjs",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "astro": "^5.0.0",
+    "@astrojs/react": "^4.0.0",
+    "@astrojs/tailwind": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }
