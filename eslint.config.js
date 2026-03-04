@@ -19,5 +19,13 @@ export default [
   // JSON: .json files
   ...jsonc.configs['recommended-with-json'],
   // Tailwind: sort and lint class names (classnames-order, etc.)
-  ...tailwind.configs['flat/recommended']
+  ...tailwind.configs['flat/recommended'],
+  {
+    rules: {
+      'tailwindcss/no-custom-classname': [
+        'warn',
+        { whitelist: ['text-charcoal', 'bg-surface', 'text-primary', 'bg-primary', 'text-secondary', 'bg-secondary', 'text-accent', 'bg-accent'] },
+      ],
+    },
+  },
 ]
