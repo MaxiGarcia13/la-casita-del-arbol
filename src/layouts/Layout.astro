@@ -3,7 +3,10 @@ interface Props {
   title?: string;
 }
 
-const { title = 'La Casita del Árbol' } = Astro.props;
+import { BUSINESS_NAME } from '../constans/business'
+import '../styles/global.css'
+
+const { title = BUSINESS_NAME } = Astro.props;
 ---
 
 <!doctype html>
@@ -13,7 +16,7 @@ const { title = 'La Casita del Árbol' } = Astro.props;
       <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       <title>{title}</title>
     </head>
-    <body>
+    <body class='text-charcoal bg-surface h-full min-h-screen'>
       <slot />
     </body>
   </html>

@@ -12,10 +12,6 @@ export default [
       'node_modules/**',
       '.astro/**',
       '**/package-lock.json',
-      '*.config.js',
-      '*.config.mjs',
-      '*.config.cjs',
-      '*.config.ts'
     ]
   }),
   // Astro: .astro files

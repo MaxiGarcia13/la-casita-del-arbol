@@ -1,9 +1,11 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro'
+import { BUSINESS_NAME } from '../constans/business'
+import Navbar from '../components/navbar.astro'
 ---
 
-  <Layout title='La Casita del Árbol'>
-    <main class='flex min-h-screen items-center justify-center bg-gray-100'>
-      <h1 class='text-4xl font-bold text-gray-800'>La Casita del Árbol</h1>
+  <Layout title={BUSINESS_NAME}>
+    <main class='mx-auto min-h-screen max-w-[900px]'>
+      <Navbar />
     </main>
   </Layout>
