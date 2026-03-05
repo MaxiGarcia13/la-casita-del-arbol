@@ -1,7 +1,3 @@
-/**
- * Event calendar shared types and defaults.
- */
-
 export interface CalendarDay {
   key: string
   label: string
@@ -17,10 +13,19 @@ export interface TimeSlot {
 export interface CalendarEvent {
   id: string
   dayKey: string
-  startSlotIndex: number
-  spanSlots?: number
+  startTime: string
+  durationMinutes?: number
   title: string
   description?: string
+}
+
+export interface NormalizedCalendarEvent extends CalendarEvent {
+  startSlotIndex: number
+  spanSlots: number
+  /** Minutes from slot start to event start (0 when start is on slot boundary). */
+  offsetMinutes?: number
+  /** Total duration in minutes (for height when offset is used). */
+  durationMinutes: number
 }
 
 export interface EventCalendarProps {
@@ -31,7 +36,15 @@ export interface EventCalendarProps {
   class?: string
 }
 
-/** Spanish weekdays: Lunes → Domingo, abbreviated for header */
+export interface CalendarCellEvent {
+  id: string
+  title: string
+  description?: string
+  spanSlots?: number
+  offsetMinutes?: number
+  durationMinutes?: number
+}
+
 export const DEFAULT_DAYS: CalendarDay[] = [
   { key: 'lun', label: 'L', fullName: 'Lunes' },
   { key: 'mar', label: 'M', fullName: 'Martes' },

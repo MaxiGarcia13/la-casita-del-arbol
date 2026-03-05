@@ -4,11 +4,14 @@ import LinkButton from './link-button.astro'
 import InstagramIcon from '../assets/instagram.svg'
 import MusicIcon from '../assets/music.svg'
 import MessageIcon from '../assets/message-square.svg'
+import { BUSINESS_NAME } from '../constans/business'
 ---
-  <section class='relative flex flex-wrap items-start justify-start gap-6'>
+  <section class='relative flex flex-wrap items-center justify-center gap-6 md:items-start md:justify-start'>
     <Image src='/assets/img/girl.webp' alt='Contact' width={300} height={300} />
 
     <div class='my-auto flex flex-col gap-2'>
+      <h1 class='mb-2 text-xl font-extrabold md:text-5xl' id='contact'>{BUSINESS_NAME}</h1>
+
       <p>Soy <span class='font-bold'>Vane</span>, soy ceramista y hago clases de cerámica.</p>
       <p>Creo que Todxs tenemos la magia de crear en nuestras manos 💫</p>
       <p>Cada clase es <span class='font-bold'>única</span>, te enseño a crear tu propia pieza de cerámica</p>

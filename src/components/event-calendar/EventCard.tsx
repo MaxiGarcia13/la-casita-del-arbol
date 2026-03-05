@@ -3,8 +3,6 @@ export interface EventCardProps {
   id: string
   title: string
   description?: string
-  /** Number of time slots this event spans (1 = 1 hour, 3 = 3 hours, etc.). Used for sizing. */
-  spanSlots?: number
   className?: string
   style?: React.CSSProperties
 }
@@ -14,7 +12,6 @@ export default function EventCard ({
   id,
   title,
   description,
-  spanSlots = 1,
   className = '',
   style,
 }: EventCardProps) {

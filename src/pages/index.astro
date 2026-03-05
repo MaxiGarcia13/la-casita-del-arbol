@@ -2,20 +2,34 @@
 import Layout from '../layouts/Layout.astro'
 import { BUSINESS_NAME } from '../constans/business'
 import Header from '../components/header.astro'
-import { EventCalendar, buildTimeSlots } from '../components/event-calendar'
+import Contact from '../components/contact.astro'
+import { EventCalendar, buildTimeSlots, getHourAndMinute } from '../components/event-calendar'
 
 const sampleEvents = [
-  { id: '1', dayKey: 'mar', startSlotIndex: 2, title: 'Clase cerámica', description: 'Turno mañana' },
-  { id: '2', dayKey: 'jue', startSlotIndex: 4, spanSlots: 2, title: 'Taller', description: '2 horas' },
-  { id: '3', dayKey: 'vie', startSlotIndex: 6, spanSlots: 4, title: 'Curso intensivo', description: '3 horas' },
+  { id: '1', dayKey: 'mar', startTime: '10:15', durationMinutes: 60, title: 'Clase cerámica', description: 'Turno mañana' },
+  { id: '2', dayKey: 'jue', startTime: '12:00', durationMinutes: 120, title: 'Taller', description: '2 horas' },
+  { id: '3', dayKey: 'vie', startTime: '14:00', durationMinutes: 240, title: 'Curso intensivo', description: '3 horas' },
+  { id: '4', dayKey: 'mar', startTime: '18:30', durationMinutes: 120, title: 'Clase 18:30', description: 'Con minutos' },
 ]
 
-const timeSlots = buildTimeSlots(8, 24, 60)
+const startHour = Math.min(...sampleEvents.map(event => getHourAndMinute(event.startTime).hour))
+const endHour = Math.max(...sampleEvents.map(event => {
+  const { hour } = getHourAndMinute(event.startTime)
+
+  return hour + (event.durationMinutes / 60) + 1
+}))
+
+const timeSlots = buildTimeSlots(startHour - 1, endHour, 60)
 ---
 
   <Layout title={BUSINESS_NAME}>
-    <main class='mx-auto min-h-screen max-w-[900px] p-4'>
+    <main class='mx-auto flex min-h-screen max-w-[900px] flex-col gap-10 p-4'>
       <Header />
+      <Contact />
+      <h2 class='text-2xl font-bold' id='lessons-calendar'>Calendario de clases</h2>
+
+      <EventCalendar events={sampleEvents} timeSlots={timeSlots} />
+      <h2 class='text-2xl font-bold' id='events-calendar'>Eventos</h2>
 
       <EventCalendar events={sampleEvents} timeSlots={timeSlots} />
     </main>

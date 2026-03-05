@@ -44,12 +44,23 @@ html {
   font-family: 'Source Serif 4', ui-serif, serif;
 }
 
-/* Event calendar – cells with cards */
-.event-calendar-cell:has(.event-card) {
-  display: flex;
-  flex-direction: column;
+/* Width of the scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
 }
-.event-calendar-cell:has(.event-card) .event-card {
-  flex: 1;
-  min-height: 0;
+
+/* Track (the background) */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle (the part you grab) */
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
 }

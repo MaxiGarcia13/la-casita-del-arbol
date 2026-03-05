@@ -3,7 +3,6 @@ import type { CalendarDay } from './types'
 
 interface Props {
   days: CalendarDay[]
-  /** Width of the timeline column (left), so header cells align with grid */
   timelineWidth?: string
   class?: string
 }
@@ -11,7 +10,7 @@ interface Props {
 const { days, timelineWidth = '4rem', class: className = '' } = Astro.props
 ---
 
-  <header class:list={['flex border-b-2 border-charcoal', className]} role='row'>
+  <header class:list={['flex border-b-2', className]} role='row'>
     <div
       class='border-charcoal shrink-0 border-r-2'
       aria-hidden='true'

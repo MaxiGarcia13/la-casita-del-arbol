@@ -24,14 +24,14 @@ const {
   days = DEFAULT_DAYS,
   timeSlots = buildTimeSlots(9, 18, 60),
   events = [],
-  timelineWidth = '4rem',
+  timelineWidth = '3rem',
   slotHeight = '4rem',
   class: className = '',
 } = Astro.props
 ---
 
   <div
-    class:list={['flex flex-col w-full max-w-full overflow-auto rounded border-2 border-charcoal bg-surface', className]}
+    class:list={['flex flex-col w-full max-w-full overflow-auto rounded border-2 border-charcoal relative bg-surface', className]}
     style={`--calendar-days-count: ${days.length}; --calendar-slot-height: ${slotHeight}`}
     role='application'
     aria-label='Calendario semanal'

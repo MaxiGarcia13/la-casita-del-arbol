@@ -7,19 +7,20 @@ interface Props {
   class?: string
 }
 
-const { timeSlots, width = '4rem', class: className = '' } = Astro.props
+const { timeSlots, width = '3rem', class: className = '' } = Astro.props
 ---
 
   <aside
-    class:list={['shrink-0 border-r-2 border-charcoal bg-surface', className]}
+    class:list={['shrink border-r-2', className]}
     aria-label='Horarios'
     role='complementary'
+    style={{ width }}
   >
-    <div class='flex flex-col' style={{ width }}>
+    <div class='flex flex-col'>
       {timeSlots.map((slot) => (
         <div
           key={slot.label}
-          class='text-charcoal flex min-h-[var(--calendar-slot-height,4rem)] items-start justify-end border-b border-black/15 py-1 pt-1 pr-2 text-xs'
+          class='text-charcoal flex min-h-[var(--calendar-slot-height,2rem)] items-start justify-end border-b border-black/15 py-1 pt-1 pr-2 text-xs'
         >
           <span class='whitespace-nowrap'>{slot.label}</span>
         </div>
