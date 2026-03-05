@@ -24,7 +24,12 @@ export default [
     rules: {
       'tailwindcss/no-custom-classname': [
         'warn',
-        { whitelist: ['text-charcoal', 'bg-surface', 'text-primary', 'bg-primary', 'text-secondary', 'bg-secondary', 'text-accent', 'bg-accent'] },
+        {
+          whitelist: [
+            'text-charcoal', 'bg-surface', 'text-primary', 'bg-primary', 'text-secondary', 'bg-secondary', 'text-accent', 'bg-accent', 'border-charcoal',
+            'event-calendar-header__days', 'event-calendar-grid', 'event-calendar-cell', 'event-card'
+          ]
+        },
       ],
     },
   },
