@@ -1,9 +1,55 @@
 @import 'tailwindcss';
 
+/* Source Serif 4 – titles & bold */
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('/assets/fonts/Source_Serif_4/SourceSerif4-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('/assets/fonts/Source_Serif_4/SourceSerif4-ExtraBold.ttf') format('truetype');
+  font-weight: 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('/assets/fonts/Source_Serif_4/SourceSerif4-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('/assets/fonts/Source_Serif_4/SourceSerif4-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
 @theme {
-  --color-primary: #f2b705;
-  --color-secondary: #d97952;
-  --color-surface: #f9f7f2;
-  --color-accent: #2d4032;
-  --color-charcoal: #333333;
+  --color-primary: #FDFF55; 
+  --color-secondary: #C57E5F; 
+  --color-surface: #F7F3E1;
+  --color-accent: #707A5E; 
+  --color-charcoal: #2B2B2B;
+}
+
+/* Base typography: Nunito for body, Source Serif 4 for headings */
+html {
+  font-family: 'Source Serif 4', ui-serif, serif;
+}
+
+/* Event calendar – cells with cards */
+.event-calendar-cell:has(.event-card) {
+  display: flex;
+  flex-direction: column;
+}
+.event-calendar-cell:has(.event-card) .event-card {
+  flex: 1;
+  min-height: 0;
 }
