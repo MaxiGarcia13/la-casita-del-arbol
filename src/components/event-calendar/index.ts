@@ -1,6 +1,7 @@
-export type { CalendarDay, TimeSlot, CalendarEvent, NormalizedCalendarEvent, EventCalendarProps } from './types'
-export { DEFAULT_DAYS } from './types'
-export { default as EventCalendar } from './EventCalendar.astro'
+export type * from './types'
+
+export { DEFAULT_DAYS } from './constants'
+export { default as EventCalendar } from './event-calendar.astro'
 export {
   buildTimeSlots,
   parseTimeToMinutes,

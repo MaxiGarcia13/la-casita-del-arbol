@@ -1,6 +1,6 @@
 import type { CalendarCellEvent } from './types.ts'
 import { useRef, useEffect } from 'react'
-import EventCard from './EventCard.tsx'
+import EventCard from './event-card.tsx'
 
 export interface CalendarCellProps {
   key?: string

@@ -1,21 +1,16 @@
 ---
 import type { CalendarDay, TimeSlot, CalendarEvent } from './types'
-import { DEFAULT_DAYS } from './types'
+import { DEFAULT_DAYS } from './constants'
 import { buildTimeSlots } from './utils'
-import CalendarHeader from './CalendarHeader.astro'
-import CalendarTimeline from './CalendarTimeline.astro'
-import CalendarGrid from './CalendarGrid.astro'
+import CalendarHeader from './calendar-header.astro'
+import CalendarTimeline from './calendar-timeline.astro'
+import CalendarGrid from './calendar-grid.astro'
 
 interface Props {
-  /** Weekday columns (default: Spanish L, M, M, J, V, S, D) */
   days?: CalendarDay[]
-  /** Time slots for the left timeline (default: 9–18, 1h) */
   timeSlots?: TimeSlot[]
-  /** Events to render in the grid */
   events?: CalendarEvent[]
-  /** Width of the timeline column */
   timelineWidth?: string
-  /** Height of each time slot row */
   slotHeight?: string
   class?: string
 }
