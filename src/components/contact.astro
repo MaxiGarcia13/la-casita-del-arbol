@@ -1,0 +1,40 @@
+---
+import { Image } from 'astro:assets'
+import LinkButton from './link-button.astro'
+import InstagramIcon from '../assets/instagram.svg'
+import MusicIcon from '../assets/music.svg'
+import MessageIcon from '../assets/message-square.svg'
+---
+  <section class='relative flex flex-wrap items-start justify-start gap-6'>
+    <Image src='/assets/img/girl.webp' alt='Contact' width={300} height={300} />
+
+    <div class='my-auto flex flex-col gap-2'>
+      <p>Soy <span class='font-bold'>Vane</span>, soy ceramista y hago clases de cerámica.</p>
+      <p>Creo que Todxs tenemos la magia de crear en nuestras manos 💫</p>
+      <p>Cada clase es <span class='font-bold'>única</span>, te enseño a crear tu propia pieza de cerámica</p>
+      <p>Estoy en <span class='font-bold'>La Plata, Argentina</span></p>
+      <div class='mt-2 flex flex-wrap gap-2'>
+        <LinkButton
+          href='https://wa.me/5492210000000'
+          aria-label='WhatsApp la casita del árbol'
+        >
+          <MessageIcon class='size-5 shrink-0 text-current' />
+          WhatsApp
+        </LinkButton>
+        <LinkButton
+          href='https://www.instagram.com/ceramicalacasitadelarbol/'
+          aria-label='Instagram la casita del árbol'
+        >
+          <InstagramIcon class='size-5 shrink-0 text-current' />
+          Instagram
+        </LinkButton>
+        <LinkButton
+          href='https://spotify.link/HrnB3J0SmDb'
+          aria-label='Spotify la casita del árbol'
+        >
+          <MusicIcon class='size-5 shrink-0 text-current' />
+          Spotify
+        </LinkButton>
+      </div>
+    </div>
+  </section>

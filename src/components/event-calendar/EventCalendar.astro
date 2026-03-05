@@ -1,0 +1,50 @@
+---
+import type { CalendarDay, TimeSlot, CalendarEvent } from './types'
+import { DEFAULT_DAYS } from './types'
+import { buildTimeSlots } from './utils'
+import CalendarHeader from './CalendarHeader.astro'
+import CalendarTimeline from './CalendarTimeline.astro'
+import CalendarGrid from './CalendarGrid.astro'
+
+interface Props {
+  /** Weekday columns (default: Spanish L, M, M, J, V, S, D) */
+  days?: CalendarDay[]
+  /** Time slots for the left timeline (default: 9–18, 1h) */
+  timeSlots?: TimeSlot[]
+  /** Events to render in the grid */
+  events?: CalendarEvent[]
+  /** Width of the timeline column */
+  timelineWidth?: string
+  /** Height of each time slot row */
+  slotHeight?: string
+  class?: string
+}
+
+const {
+  days = DEFAULT_DAYS,
+  timeSlots = buildTimeSlots(9, 18, 60),
+  events = [],
+  timelineWidth = '4rem',
+  slotHeight = '4rem',
+  class: className = '',
+} = Astro.props
+---
+
+  <div
+    class:list={['flex flex-col w-full max-w-full overflow-auto rounded border-2 border-charcoal bg-surface', className]}
+    style={`--calendar-days-count: ${days.length}; --calendar-slot-height: ${slotHeight}`}
+    role='application'
+    aria-label='Calendario semanal'
+  >
+    <CalendarHeader days={days} timelineWidth={timelineWidth} />
+
+    <div class='flex min-h-0 flex-1'>
+      <CalendarTimeline timeSlots={timeSlots} width={timelineWidth} />
+      <CalendarGrid
+        days={days}
+        timeSlots={timeSlots}
+        events={events}
+        slotHeight={slotHeight}
+      />
+    </div>
+  </div>

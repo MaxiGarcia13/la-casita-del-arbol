@@ -1,11 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import { BUSINESS_NAME } from '../constans/business'
-import Navbar from '../components/navbar.astro'
+import Header from '../components/header.astro'
+import { EventCalendar, buildTimeSlots } from '../components/event-calendar'
+
+const sampleEvents = [
+  { id: '1', dayKey: 'mar', startSlotIndex: 2, title: 'Clase cerámica', description: 'Turno mañana' },
+  { id: '2', dayKey: 'jue', startSlotIndex: 4, spanSlots: 2, title: 'Taller', description: '2 horas' },
+  { id: '3', dayKey: 'vie', startSlotIndex: 6, spanSlots: 4, title: 'Curso intensivo', description: '3 horas' },
+]
+
+const timeSlots = buildTimeSlots(8, 24, 60)
 ---
 
   <Layout title={BUSINESS_NAME}>
-    <main class='mx-auto min-h-screen max-w-[900px]'>
-      <Navbar />
+    <main class='mx-auto min-h-screen max-w-[900px] p-4'>
+      <Header />
+
+      <EventCalendar events={sampleEvents} timeSlots={timeSlots} />
     </main>
   </Layout>
