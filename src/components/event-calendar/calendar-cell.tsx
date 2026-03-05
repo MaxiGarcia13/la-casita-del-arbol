@@ -6,15 +6,8 @@ export interface CalendarCellProps {
   key?: string
   dayKey: string
   slotIndex: number
-  /** Duration of one slot in minutes (from timeSlots). */
   slotDurationMinutes?: number
-  /** Optional event to show in this cell */
   event?: CalendarCellEvent
-  isEmpty?: boolean
-  /** True when cell is covered by a multi-slot event (keeps grid layout) */
-  isPlaceholder?: boolean
-  /** True when cell is the last column in its row (no border-right) */
-  isLastInRow?: boolean
   className?: string
 }
 
@@ -23,7 +16,6 @@ export default function CalendarCell ({
   slotIndex,
   slotDurationMinutes = 60,
   event,
-  isPlaceholder = false,
   className = '',
 }: CalendarCellProps) {
   const cardRef = useRef<HTMLDivElement>(null)
@@ -83,7 +75,6 @@ export default function CalendarCell ({
       data-day={dayKey}
       data-slot={slotIndex}
       role='gridcell'
-      aria-hidden={isPlaceholder}
     >
       {event
         ? (

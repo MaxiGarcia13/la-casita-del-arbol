@@ -45,9 +45,9 @@ const byCell = eventsByCell(normalizedEvents)
             key={key}
             client:only='react'
             dayKey={day.key}
+            event={event}
             slotIndex={slotIndex}
             slotDurationMinutes={slotDurationMinutes}
-            event={event ? { id: event.id, title: event.title, description: event.description, spanSlots: event.spanSlots, offsetMinutes: event.offsetMinutes, durationMinutes: event.durationMinutes } : undefined}
           />
         )
       })
