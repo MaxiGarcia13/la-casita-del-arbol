@@ -1,17 +1,17 @@
-import { useEffect, useRef } from 'react';
 import type { CalendarCellEvent } from './types.ts';
+import { useEffect, useRef } from 'react';
 import EventCard from './event-card.tsx';
 
 export interface CalendarCellProps {
-  key?: string
-  dayKey: string
-  slotIndex: number
-  slotDurationMinutes?: number
-  event?: CalendarCellEvent
-  className?: string
+  key?: string;
+  dayKey: string;
+  slotIndex: number;
+  slotDurationMinutes?: number;
+  event?: CalendarCellEvent;
+  className?: string;
 }
 
-export default function CalendarCell ({
+export default function CalendarCell({
   dayKey,
   slotIndex,
   slotDurationMinutes = 60,
@@ -24,12 +24,12 @@ export default function CalendarCell ({
   const rowSpan = event?.spanSlots && event.spanSlots > 1 && !useDurationHeight ? event.spanSlots : undefined;
   const useAbsolute = rowSpan !== undefined || useDurationHeight;
 
-  function applyEventCardSize (
+  function applyEventCardSize(
     card: HTMLDivElement,
     parent: HTMLElement,
     event: CalendarCellEvent,
     slotDurationMinutes: number,
-    useDurationHeight: boolean
+    useDurationHeight: boolean,
   ): void {
     const spanSlots = event.spanSlots ?? 1;
     const hasOffsetMinutes = event.offsetMinutes != null && event.offsetMinutes > 0;
@@ -39,7 +39,8 @@ export default function CalendarCell ({
       const heightSlots = event.durationMinutes / slotDurationMinutes;
       card.style.top = `${(event.offsetMinutes ?? 0) / slotDurationMinutes * 100}%`;
       card.style.height = `${parent.clientHeight * heightSlots - gap}px`;
-    } else {
+    }
+    else {
       card.style.top = '';
       card.style.height = `${parent.clientHeight * spanSlots - gap}px`;
     }
@@ -47,19 +48,22 @@ export default function CalendarCell ({
   }
 
   useEffect(() => {
-    if (!event || !cardRef.current) return;
+    if (!event || !cardRef.current)
+      return;
 
     const parentElement = cardRef.current.parentElement;
-    if (!parentElement) return;
+    if (!parentElement)
+      return;
 
     const updateSize = (): void => {
-      if (!cardRef.current || !cardRef.current.parentElement) return;
+      if (!cardRef.current || !cardRef.current.parentElement)
+        return;
       applyEventCardSize(
         cardRef.current,
         cardRef.current.parentElement,
         event,
         slotDurationMinutes,
-        useDurationHeight
+        useDurationHeight,
       );
     };
 
@@ -74,15 +78,15 @@ export default function CalendarCell ({
       className={`event-calendar-cell min-h-(--calendar-slot-height,4rem) p-1 border-b border-r border-black/15 ${useAbsolute ? 'relative' : ''} ${className}`.trim()}
       data-day={dayKey}
       data-slot={slotIndex}
-      role='gridcell'
+      role="gridcell"
     >
       {event
         ? (
-          <EventCard
-            ref={cardRef}
-            className={useAbsolute ? 'absolute top-1 left-1' : undefined}
-            {...event}
-          />
+            <EventCard
+              ref={cardRef}
+              className={useAbsolute ? 'absolute top-1 left-1' : undefined}
+              {...event}
+            />
           )
         : null}
     </div>

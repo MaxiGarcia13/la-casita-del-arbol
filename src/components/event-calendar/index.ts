@@ -1,11 +1,11 @@
-export type * from './types';
-
 export { DEFAULT_DAYS } from './constants';
+
 export { default as EventCalendar } from './event-calendar.astro';
+export type * from './types';
 export {
   buildTimeSlots,
-  parseTimeToMinutes,
+  getHourAndMinute,
   getSlotDurationMinutes,
   normalizeCalendarEvent,
-  getHourAndMinute
+  parseTimeToMinutes,
 } from './utils';

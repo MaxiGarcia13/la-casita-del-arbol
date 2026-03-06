@@ -1,46 +1,46 @@
 export interface CalendarDay {
-  key: string
-  label: string
-  fullName?: string
+  key: string;
+  label: string;
+  fullName?: string;
 }
 
 export interface TimeSlot {
-  label: string
-  hour: number
-  minute: number
+  label: string;
+  hour: number;
+  minute: number;
 }
 
 export interface CalendarEvent {
-  id: string
-  dayKey: string
-  startTime: string
-  durationMinutes?: number
-  title: string
-  description?: string
-  type?: 'lesson' | 'event' | 'other'
-  totalSlots?: number
-  slotsOccupied?: number
+  id: string;
+  dayKey: string;
+  startTime: string;
+  durationMinutes?: number;
+  title: string;
+  description?: string;
+  type?: 'lesson' | 'event' | 'other';
+  totalSlots?: number;
+  slotsOccupied?: number;
 }
 
 export interface NormalizedCalendarEvent extends CalendarEvent {
-  startSlotIndex: number
-  spanSlots: number
+  startSlotIndex: number;
+  spanSlots: number;
   /** Minutes from slot start to event start (0 when start is on slot boundary). */
-  offsetMinutes?: number
+  offsetMinutes?: number;
   /** Total duration in minutes (for height when offset is used). */
-  durationMinutes: number
+  durationMinutes: number;
 }
 
 export interface EventCalendarProps {
-  days?: CalendarDay[]
-  timeSlots?: TimeSlot[]
-  events?: CalendarEvent[]
+  days?: CalendarDay[];
+  timeSlots?: TimeSlot[];
+  events?: CalendarEvent[];
   /** CSS class for the root container */
-  class?: string
+  class?: string;
 }
 
 export interface CalendarCellEvent extends CalendarEvent {
-  spanSlots?: number
-  offsetMinutes?: number
-  durationMinutes?: number
+  spanSlots?: number;
+  offsetMinutes?: number;
+  durationMinutes?: number;
 }

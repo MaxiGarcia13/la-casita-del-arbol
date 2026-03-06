@@ -1,22 +1,22 @@
 ---
+import { BUSINESS_NAME } from '../constans/business';
+import '../styles/global.css';
+
 interface Props {
   title?: string;
 }
-
-import '../styles/global.css';
-import { BUSINESS_NAME } from '../constans/business';
 
 const { title = BUSINESS_NAME } = Astro.props;
 ---
 
 <!doctype html>
-  <html lang='es'>
+  <html lang="es">
     <head>
-      <meta charset='UTF-8' />
-      <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>{title}</title>
     </head>
-    <body class='text-charcoal bg-surface h-full min-h-screen'>
+    <body class="text-charcoal bg-surface h-full min-h-screen">
       <slot />
     </body>
   </html>

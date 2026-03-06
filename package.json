@@ -1,18 +1,18 @@
 {
   "name": "la-casita-del-arbol",
+  "type": "module",
   "version": "0.0.0",
   "description": "La Casita del Árbol is a creative studio where we offer ceramic classes and sell handcrafted ceramic products.",
+  "author": "Maximiliano Daniel Garcia Mortigliengo",
+  "license": "ISC",
   "homepage": "https://github.com/MaxiGarcia13/la-casita-del-arbol#readme",
-  "bugs": {
-    "url": "https://github.com/MaxiGarcia13/la-casita-del-arbol/issues"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MaxiGarcia13/la-casita-del-arbol.git"
   },
-  "license": "ISC",
-  "author": "Maximiliano Daniel Garcia Mortigliengo",
-  "type": "module",
+  "bugs": {
+    "url": "https://github.com/MaxiGarcia13/la-casita-del-arbol/issues"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -22,12 +22,6 @@
     "format": "eslint . --fix",
     "phoenix": "rm -rf node_modules && rm package-lock.json && npm install"
   },
-  "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,astro}": "eslint --fix"
-  },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
     "astro": "^5.18.0",
@@ -35,14 +29,22 @@
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^7.7.0",
+    "@eslint-react/eslint-plugin": "^2.13.0",
     "@tailwindcss/vite": "^4.2.1",
     "eslint": "^9.39.3",
     "eslint-plugin-astro": "^1.6.0",
-    "eslint-plugin-jsonc": "^3.1.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
     "eslint-plugin-tailwindcss": "^4.0.0-beta.0",
     "lint-staged": "^16.3.1",
-    "neostandard": "^0.13.0",
     "simple-git-hooks": "^2.13.1",
     "tailwindcss": "^4.2.1"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,astro}": "eslint --fix"
   }
 }

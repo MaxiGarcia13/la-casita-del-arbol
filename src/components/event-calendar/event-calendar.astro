@@ -1,18 +1,18 @@
 ---
 import type { CalendarDay, CalendarEvent, TimeSlot } from './types';
-import { buildTimeSlots } from './utils';
 import CalendarGrid from './calendar-grid.astro';
 import CalendarHeader from './calendar-header.astro';
 import CalendarTimeline from './calendar-timeline.astro';
 import { DEFAULT_DAYS } from './constants';
+import { buildTimeSlots } from './utils';
 
 interface Props {
-  days?: CalendarDay[]
-  timeSlots?: TimeSlot[]
-  events?: CalendarEvent[]
-  timelineWidth?: string
-  slotHeight?: string
-  class?: string
+  days?: CalendarDay[];
+  timeSlots?: TimeSlot[];
+  events?: CalendarEvent[];
+  timelineWidth?: string;
+  slotHeight?: string;
+  class?: string;
 }
 
 const {
@@ -25,21 +25,24 @@ const {
 } = Astro.props;
 ---
 
-  <div
-    class:list={['flex flex-col w-full max-w-full overflow-auto rounded border-2 border-charcoal relative bg-surface', className]}
-    style={`--calendar-days-count: ${days.length}; --calendar-slot-height: ${slotHeight}`}
-    role='application'
-    aria-label='Calendario semanal'
-  >
-    <CalendarHeader days={days} timelineWidth={timelineWidth} />
+<div
+  class:list={[
+    'flex flex-col w-full max-w-full overflow-auto rounded border-2 border-charcoal relative bg-surface',
+    className,
+  ]}
+  style={`--calendar-days-count: ${days.length}; --calendar-slot-height: ${slotHeight}`}
+  role="application"
+  aria-label="Calendario semanal"
+>
+  <CalendarHeader days={days} timelineWidth={timelineWidth} />
 
-    <div class='flex min-h-0 flex-1'>
-      <CalendarTimeline timeSlots={timeSlots} width={timelineWidth} />
-      <CalendarGrid
-        days={days}
-        timeSlots={timeSlots}
-        events={events}
-        slotHeight={slotHeight}
-      />
-    </div>
+  <div class="flex min-h-0 flex-1">
+    <CalendarTimeline timeSlots={timeSlots} width={timelineWidth} />
+    <CalendarGrid
+      days={days}
+      timeSlots={timeSlots}
+      events={events}
+      slotHeight={slotHeight}
+    />
   </div>
+</div>

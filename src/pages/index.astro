@@ -1,8 +1,13 @@
 ---
-import { buildTimeSlots, type CalendarEvent, EventCalendar, getHourAndMinute } from '../components/event-calendar';
-import { BUSINESS_NAME } from '../constans/business';
+import type { CalendarEvent } from '../components/event-calendar';
 import Contact from '../components/contact.astro';
+import {
+  buildTimeSlots,
+  EventCalendar,
+  getHourAndMinute,
+} from '../components/event-calendar';
 import Header from '../components/header.astro';
+import { BUSINESS_NAME } from '../constans/business';
 import Layout from '../layouts/Layout.astro';
 
 const sampleEvents: CalendarEvent[] = [
@@ -39,7 +44,7 @@ const sampleEvents: CalendarEvent[] = [
     startTime: '14:00',
     durationMinutes: 240,
     title: 'Curso intensivo',
-    description: '3 horas'
+    description: '3 horas',
   },
   {
     id: '4',
@@ -47,31 +52,37 @@ const sampleEvents: CalendarEvent[] = [
     startTime: '18:30',
     durationMinutes: 120,
     title: 'Clase 18:30',
-    description: 'Con minutos'
+    description: 'Con minutos',
   },
 ];
 
-const startHour = Math.min(...sampleEvents.map(event => getHourAndMinute(event.startTime).hour));
+const startHour = Math.min(
+  ...sampleEvents.map(event => getHourAndMinute(event.startTime).hour),
+);
 
-const endHour = Math.max(...sampleEvents.map(event => {
-  const { hour } = getHourAndMinute(event.startTime);
+const endHour = Math.max(
+  ...sampleEvents.map((event) => {
+    const { hour } = getHourAndMinute(event.startTime);
 
-  return hour + ((event.durationMinutes ?? 0) / 60) + 1;
-}));
+    return hour + (event.durationMinutes ?? 0) / 60 + 1;
+  }),
+);
 
 const timeSlots = buildTimeSlots(startHour - 1, endHour, 60);
 ---
 
-  <Layout title={BUSINESS_NAME}>
-    <main class='mx-auto flex min-h-screen max-w-[900px] flex-col gap-10 p-4 md:p-0'>
-      <Header />
+<Layout title={BUSINESS_NAME}>
+  <main
+    class="mx-auto flex min-h-screen max-w-[900px] flex-col gap-10 p-4 md:p-0"
+  >
+    <Header />
 
-      <Contact />
+    <Contact />
 
-      <h2 class='text-2xl font-bold' id='lessons-calendar'>Clases</h2>
-      <EventCalendar events={sampleEvents} timeSlots={timeSlots} />
+    <h2 class="text-2xl font-bold" id="lessons-calendar">Clases</h2>
+    <EventCalendar events={sampleEvents} timeSlots={timeSlots} />
 
-      <h2 class='text-2xl font-bold' id='events-calendar'>Eventos</h2>
-      <EventCalendar events={sampleEvents} timeSlots={timeSlots} />
-    </main>
-  </Layout>
+    <h2 class="text-2xl font-bold" id="events-calendar">Eventos</h2>
+    <EventCalendar events={sampleEvents} timeSlots={timeSlots} />
+  </main>
+</Layout>

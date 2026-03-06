@@ -2,28 +2,30 @@
 import type { TimeSlot } from './types';
 
 interface Props {
-  timeSlots: TimeSlot[]
-  width?: string
-  class?: string
+  timeSlots: TimeSlot[];
+  width?: string;
+  class?: string;
 }
 
 const { timeSlots, width = '3rem', class: className = '' } = Astro.props;
 ---
 
-  <aside
-    class:list={['shrink border-r-2', className]}
-    aria-label='Horarios'
-    role='complementary'
-    style={{ width }}
-  >
-    <div class='flex flex-col'>
-      {timeSlots.map((slot) => (
+<aside
+  class:list={['shrink border-r-2', className]}
+  aria-label="Horarios"
+  role="complementary"
+  style={{ width }}
+>
+  <div class="flex flex-col">
+    {
+      timeSlots.map(slot => (
         <div
           key={slot.label}
-          class='text-charcoal flex min-h-[var(--calendar-slot-height,2rem)] items-start justify-end border-b border-black/15 py-1 pt-1 pr-2 text-xs'
+          class="text-charcoal flex min-h-[var(--calendar-slot-height,2rem)] items-start justify-end border-b border-black/15 py-1 pt-1 pr-2 text-xs"
         >
-          <span class='whitespace-nowrap'>{slot.label}</span>
+          <span class="whitespace-nowrap">{slot.label}</span>
         </div>
-      ))}
-    </div>
-  </aside>
+      ))
+    }
+  </div>
+</aside>

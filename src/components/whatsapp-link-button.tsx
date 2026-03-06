@@ -1,26 +1,26 @@
+import type { ReactNode } from 'react';
+import { WhatsappIcon } from '../assets/whatsapp.tsx';
+import { WHATSAPP_NUMBER } from '../constans/business.ts';
 import { cn } from '../utils/classes.ts';
 import { LinkButton } from './link-button.tsx';
-import type { ReactNode } from 'react';
-import { WHATSAPP_NUMBER } from '../constans/business.ts';
-import { WhatsappIcon } from '../assets/whatsapp.tsx';
 
 const DEFAULT_HREF = `https://wa.me/${WHATSAPP_NUMBER}`;
 const DEFAULT_ARIA_LABEL = 'WhatsApp la casita del árbol';
 
 export interface WhatsappLinkButtonProps {
-  ariaLabel?: string
-  className?: string
-  children?: ReactNode
-  variant?: 'filled' | 'default'
-  message?: string
+  ariaLabel?: string;
+  className?: string;
+  children?: ReactNode;
+  variant?: 'filled' | 'default';
+  message?: string;
 }
 
-export function WhatsappLinkButton ({
+export function WhatsappLinkButton({
   ariaLabel = DEFAULT_ARIA_LABEL,
   className = '',
   children,
   variant = 'default',
-  message
+  message,
 }: WhatsappLinkButtonProps) {
   return (
     <LinkButton

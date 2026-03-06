@@ -1,17 +1,17 @@
 import type { CalendarEvent } from './types';
-import { cn } from '../../utils/classes';
 import { useRef } from 'react';
 import { UserGroupIcon } from '../../assets/user-group.tsx';
+import { cn } from '../../utils/classes';
 
 import { WhatsappLinkButton } from '../whatsapp-link-button.tsx';
 
 export interface EventCardProps extends CalendarEvent {
-  ref?: React.RefObject<HTMLDivElement | null>
-  className?: string
-  style?: React.CSSProperties
+  ref?: React.RefObject<HTMLDivElement | null>;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
-export default function EventCard ({
+export default function EventCard({
   ref,
   id,
   title,
@@ -24,7 +24,7 @@ export default function EventCard ({
   dayKey,
   startTime,
 }: EventCardProps) {
-  const dialog = useRef<HTMLDialogElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   return (
     <>
@@ -35,72 +35,82 @@ export default function EventCard ({
           cn(
             'flex justify-between items-center flex-wrap h-full overflow-y-auto overflow-x-hidden p-2 cursor-pointer rounded text-charcoal',
             className,
-            type !== 'lesson' ? 'bg-secondary' : 'bg-primary'
+            type !== 'lesson' ? 'bg-secondary' : 'bg-primary',
           )
         }
         data-event-id={id}
         style={style}
         onClick={() => {
-          if (dialog.current) {
-            dialog.current.showModal();
+          if (dialogRef.current) {
+            dialogRef.current.showModal();
           }
         }}
       >
-        <h3 className='hidden text-sm font-semibold wrap-break-word md:block'>{title}</h3>
+        <h3 className="hidden text-sm font-semibold wrap-break-word md:block">{title}</h3>
         {
           typeof totalSlots === 'number' && (
-            <span className='hidden items-center gap-2 md:flex'>
-              <UserGroupIcon className='size-2' />
+            <span className="hidden items-center gap-2 md:flex">
+              <UserGroupIcon className="size-2" />
 
-              <span className='text-sm'>{slotsOccupied} / {totalSlots}</span>
+              <span className="text-sm">
+                {slotsOccupied}
+                {' '}
+                /
+                {' '}
+                {totalSlots}
+              </span>
             </span>
           )
         }
       </div>
 
       <dialog
-        ref={dialog}
-        className='bg-surface text-charcoal m-auto  h-full max-h-[400px] w-full max-w-[400px] rounded p-4 outline-none'
+        ref={dialogRef}
+        className="bg-surface text-charcoal m-auto  h-full max-h-[400px] w-full max-w-[400px] rounded p-4 outline-none"
         onClick={(event) => {
           if (event.target === event.currentTarget) {
-            dialog.current?.close();
+            dialogRef.current?.close();
           }
         }}
       >
-        <div className='flex h-full flex-col gap-4'>
-          <header className='flex flex-wrap items-center justify-between'>
-            <h3 className='text-2xl font-semibold wrap-break-word'>{title}</h3>
+        <div className="flex h-full flex-col gap-4">
+          <header className="flex flex-wrap items-center justify-between">
+            <h3 className="text-2xl font-semibold wrap-break-word">{title}</h3>
             {
               typeof totalSlots === 'number' && (
-                <span className='flex items-center gap-2'>
-                  <UserGroupIcon className='size-2' />
+                <span className="flex items-center gap-2">
+                  <UserGroupIcon className="size-2" />
 
-                  <span className='text-sm'>{(slotsOccupied ?? 0)} / {totalSlots}</span>
+                  <span className="text-sm">
+                    {(slotsOccupied ?? 0)}
+                    /
+                    {totalSlots}
+                  </span>
                 </span>
               )
             }
           </header>
 
-          <p className='flex-1 overflow-y-auto text-sm wrap-break-word'>{description}</p>
+          <p className="flex-1 overflow-y-auto text-sm wrap-break-word">{description}</p>
 
-          <footer className='flex gap-4'>
+          <footer className="flex gap-4">
             <button
-              className='border-charcoal w-full cursor-pointer rounded-lg border-2 p-2'
-              onClick={() => dialog.current?.close()}
+              className="border-charcoal w-full cursor-pointer rounded-lg border-2 p-2"
+              onClick={() => dialogRef.current?.close()}
             >
               Cerrar
             </button>
             {
-            typeof totalSlots === 'number' && (slotsOccupied ?? 0) < totalSlots && (
-              <WhatsappLinkButton
-                className='shrink-0'
-                variant='filled'
-                message={`Hola, me gustaría inscribirme en ${title} del día ${dayKey} a las ${startTime}`}
-              >
-                Hay lugares disponibles
-              </WhatsappLinkButton>
-            )
-          }
+              typeof totalSlots === 'number' && (slotsOccupied ?? 0) < totalSlots && (
+                <WhatsappLinkButton
+                  className="shrink-0"
+                  variant="filled"
+                  message={`Hola, me gustaría inscribirme en ${title} del día ${dayKey} a las ${startTime}`}
+                >
+                  Hay lugares disponibles
+                </WhatsappLinkButton>
+              )
+            }
           </footer>
         </div>
       </dialog>
