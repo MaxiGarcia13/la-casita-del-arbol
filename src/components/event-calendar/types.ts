@@ -44,3 +44,16 @@ export interface CalendarCellEvent extends CalendarEvent {
   offsetMinutes?: number;
   durationMinutes?: number;
 }
+
+/** Event announced for the future (eventos section). Not tied to the calendar grid. */
+export interface UpcomingEvent {
+  id?: string;
+  title: string;
+  description?: string;
+  /** Display date, e.g. "Próximamente", "Marzo 2025", "Sábado 15 de abril" */
+  dateLabel: string;
+  /** Call-to-action label, e.g. "Consultar" or "Inscribirme" */
+  ctaLabel?: string;
+  /** Prefilled WhatsApp message; defaults to asking about the event title */
+  ctaMessage?: string;
+}

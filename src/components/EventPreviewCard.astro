@@ -1,0 +1,44 @@
+---
+import type { UpcomingEvent } from './event-calendar/types';
+import { WhatsappLinkButton } from './whatsapp-link-button';
+
+interface Props {
+  event: UpcomingEvent;
+}
+
+const { event } = Astro.props;
+const {
+  title,
+  description = '',
+  dateLabel,
+  ctaLabel = 'Consultar',
+  ctaMessage,
+} = event;
+
+const message
+  = ctaMessage ?? `Hola, me gustaría más información sobre: ${title}`;
+---
+
+<article
+  class="rounded-lg border border-charcoal/20 bg-surface p-4 text-charcoal transition-shadow hover:shadow-md"
+>
+  <header>
+    <h3 class="text-lg font-semibold wrap-break-word">{title}</h3>
+    <p class="mt-1 text-sm text-charcoal/80">{dateLabel}</p>
+  </header>
+
+  {
+    description.trim() && (
+      <p class="mt-3 line-clamp-3 text-sm wrap-break-word">
+        {description.trim()}
+      </p>
+    )
+  }
+
+  <footer class="mt-4">
+    <WhatsappLinkButton message={message} variant="filled">
+      <span>{ctaLabel}</span>
+      <span aria-hidden="true">→</span>
+    </WhatsappLinkButton>
+  </footer>
+</article>

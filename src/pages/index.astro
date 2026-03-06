@@ -1,14 +1,43 @@
 ---
-import type { CalendarEvent } from '../components/event-calendar';
+import type {
+  CalendarEvent,
+  UpcomingEvent,
+} from '../components/event-calendar';
 import Contact from '../components/contact.astro';
 import {
   buildTimeSlots,
   EventCalendar,
   getHourAndMinute,
 } from '../components/event-calendar';
+import EventPreviewCard from '../components/EventPreviewCard.astro';
 import Header from '../components/header.astro';
 import { BUSINESS_NAME } from '../constans/business';
 import Layout from '../layouts/Layout.astro';
+
+const upcomingEvents: UpcomingEvent[] = [
+  {
+    title: 'Taller de cerámica para principiantes',
+    description:
+      'Un fin de semana para aprender las bases del torno y la mano. Incluye materiales y horneado.',
+    dateLabel: 'Próximamente',
+    ctaLabel: 'Quiero más información',
+    ctaMessage:
+      'Hola, me interesa el taller de cerámica para principiantes. ¿Cuándo es y cómo me inscribo?',
+  },
+  {
+    title: 'Curso intensivo de verano',
+    description:
+      'Una semana de inmersión en cerámica. Niveles inicial e intermedio.',
+    dateLabel: 'Enero 2026',
+    ctaLabel: 'Consultar',
+  },
+  {
+    title: 'Noche de cerámica y vino',
+    description:
+      'Una tarde para crear tu pieza mientras disfrutás un buen vino. Ideal para regalar o para hacer algo distinto.',
+    dateLabel: 'Por confirmar',
+  },
+];
 
 const sampleEvents: CalendarEvent[] = [
   {
@@ -73,7 +102,7 @@ const timeSlots = buildTimeSlots(startHour - 1, endHour, 60);
 
 <Layout title={BUSINESS_NAME}>
   <main
-    class="mx-auto flex min-h-screen max-w-[900px] flex-col gap-10 p-4 md:p-0"
+    class="mx-auto flex min-h-screen max-w-[900px] flex-col gap-10 p-4 pb-10 md:p-0 md:pb-10"
   >
     <Header />
 
@@ -83,6 +112,14 @@ const timeSlots = buildTimeSlots(startHour - 1, endHour, 60);
     <EventCalendar events={sampleEvents} timeSlots={timeSlots} />
 
     <h2 class="text-2xl font-bold" id="events-calendar">Eventos</h2>
-    <EventCalendar events={sampleEvents} timeSlots={timeSlots} />
+    <ul class="flex flex-col gap-4" aria-label="Próximos eventos y novedades">
+      {
+        upcomingEvents.map(event => (
+          <li>
+            <EventPreviewCard event={event} />
+          </li>
+        ))
+      }
+    </ul>
   </main>
 </Layout>

@@ -1,5 +1,5 @@
 ---
-  import { Image } from 'astro:assets';
+import { Image } from 'astro:assets';
 import InstagramIcon from '../assets/instagram.svg';
 import MusicIcon from '../assets/music.svg';
 
@@ -13,9 +13,9 @@ import { LinkButton } from './link-button.tsx';
 import { WhatsappLinkButton } from './whatsapp-link-button.tsx';
 ---
 
-  <section
-    class="relative flex flex-wrap items-center justify-center gap-6 md:items-start md:justify-start"
-  >
+<section
+  class="relative flex flex-wrap items-center justify-center gap-6 md:items-start md:justify-start"
+>
   <Image src="/assets/img/girl.webp" alt="Contact" width={300} height={300} />
 
   <div class="my-auto flex flex-col gap-2">
@@ -38,7 +38,7 @@ import { WhatsappLinkButton } from './whatsapp-link-button.tsx';
       <LinkButton
         href={INSTAGRAM_URL}
         aria-label="Instagram la casita del árbol"
-        client:only="react"
+        client:idle
       >
         <InstagramIcon class="size-5 shrink-0 text-current" />
         Instagram
@@ -46,7 +46,7 @@ import { WhatsappLinkButton } from './whatsapp-link-button.tsx';
       <LinkButton
         href={SPOTIFY_URL}
         aria-label="Spotify la casita del árbol"
-        client:only="react"
+        client:idle
       >
         <MusicIcon class="size-5 shrink-0 text-current" />
         Spotify
