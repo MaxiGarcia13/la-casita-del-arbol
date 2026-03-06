@@ -1,10 +1,10 @@
 ---
-import type { CalendarDay, TimeSlot, CalendarEvent } from './types'
-import { DEFAULT_DAYS } from './constants'
-import { buildTimeSlots } from './utils'
-import CalendarHeader from './calendar-header.astro'
-import CalendarTimeline from './calendar-timeline.astro'
-import CalendarGrid from './calendar-grid.astro'
+import type { CalendarDay, CalendarEvent, TimeSlot } from './types';
+import { buildTimeSlots } from './utils';
+import CalendarGrid from './calendar-grid.astro';
+import CalendarHeader from './calendar-header.astro';
+import CalendarTimeline from './calendar-timeline.astro';
+import { DEFAULT_DAYS } from './constants';
 
 interface Props {
   days?: CalendarDay[]
@@ -22,7 +22,7 @@ const {
   timelineWidth = '3rem',
   slotHeight = '4rem',
   class: className = '',
-} = Astro.props
+} = Astro.props;
 ---
 
   <div

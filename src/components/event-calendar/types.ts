@@ -39,10 +39,7 @@ export interface EventCalendarProps {
   class?: string
 }
 
-export interface CalendarCellEvent {
-  id: string
-  title: string
-  description?: string
+export interface CalendarCellEvent extends CalendarEvent {
   spanSlots?: number
   offsetMinutes?: number
   durationMinutes?: number

@@ -1,4 +1,4 @@
-import type { CalendarDay } from './types'
+import type { CalendarDay } from './types';
 
 export const DEFAULT_DAYS: CalendarDay[] = [
   { key: 'lun', label: 'L', fullName: 'Lunes' },
@@ -8,4 +8,4 @@ export const DEFAULT_DAYS: CalendarDay[] = [
   { key: 'vie', label: 'V', fullName: 'Viernes' },
   { key: 'sab', label: 'S', fullName: 'Sábado' },
   { key: 'dom', label: 'D', fullName: 'Domingo' },
-]
+];

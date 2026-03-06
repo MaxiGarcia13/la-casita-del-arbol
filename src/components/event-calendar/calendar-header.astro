@@ -1,5 +1,5 @@
 ---
-import type { CalendarDay } from './types'
+import type { CalendarDay } from './types';
 
 interface Props {
   days: CalendarDay[]
@@ -7,7 +7,7 @@ interface Props {
   class?: string
 }
 
-const { days, timelineWidth = '4rem', class: className = '' } = Astro.props
+const { days, timelineWidth = '4rem', class: className = '' } = Astro.props;
 ---
 
   <header class:list={['flex border-b-2', className]} role='row'>
@@ -16,7 +16,7 @@ const { days, timelineWidth = '4rem', class: className = '' } = Astro.props
       aria-hidden='true'
       style={{ width: timelineWidth }}
     />
-    <div class='event-calendar-header__days grid min-w-0 flex-1' role='row' style='grid-template-columns: repeat(var(--calendar-days-count, 7), 1fr);'>
+    <div class='grid min-w-0 flex-1' role='row' style='grid-template-columns: repeat(var(--calendar-days-count, 7), 1fr);'>
       {
       days.map((day) => (
         <div

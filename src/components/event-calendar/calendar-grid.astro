@@ -1,7 +1,7 @@
 ---
-import type { CalendarDay, TimeSlot, CalendarEvent, NormalizedCalendarEvent } from './types'
-import { normalizeCalendarEvent, getSlotDurationMinutes } from './utils'
-import CalendarCell from './calendar-cell.tsx'
+import type { CalendarDay, CalendarEvent, NormalizedCalendarEvent, TimeSlot } from './types';
+import { getSlotDurationMinutes, normalizeCalendarEvent } from './utils';
+import CalendarCell from './calendar-cell.tsx';
 
 interface Props {
   days: CalendarDay[]
@@ -11,21 +11,21 @@ interface Props {
   class?: string
 }
 
-const { days, timeSlots, events = [], slotHeight = '4rem', class: className = '' } = Astro.props
+const { days, timeSlots, events = [], slotHeight = '4rem', class: className = '' } = Astro.props;
 
-const slotDurationMinutes = getSlotDurationMinutes(timeSlots)
-const normalizedEvents: NormalizedCalendarEvent[] = events.map((e) => normalizeCalendarEvent(e, timeSlots))
+const slotDurationMinutes = getSlotDurationMinutes(timeSlots);
+const normalizedEvents: NormalizedCalendarEvent[] = events.map((e) => normalizeCalendarEvent(e, timeSlots));
 
 /** Map (dayKey, slotIndex) -> event (first slot of a multi-slot event) */
 function eventsByCell (eventsList: NormalizedCalendarEvent[]): Map<string, NormalizedCalendarEvent> {
-  const map = new Map<string, NormalizedCalendarEvent>()
+  const map = new Map<string, NormalizedCalendarEvent>();
   for (const e of eventsList) {
-    map.set(`${e.dayKey}-${e.startSlotIndex}`, e)
+    map.set(`${e.dayKey}-${e.startSlotIndex}`, e);
   }
-  return map
+  return map;
 }
 
-const byCell = eventsByCell(normalizedEvents)
+const byCell = eventsByCell(normalizedEvents);
 ---
 
   <div
@@ -36,9 +36,9 @@ const byCell = eventsByCell(normalizedEvents)
   >
     {timeSlots.map((_, slotIndex) =>
       days.map((day) => {
-        const key = `${day.key}-${slotIndex}`
+        const key = `${day.key}-${slotIndex}`;
 
-        const event = byCell.get(key)
+        const event = byCell.get(key);
 
         return (
           <CalendarCell
@@ -49,7 +49,7 @@ const byCell = eventsByCell(normalizedEvents)
             slotIndex={slotIndex}
             slotDurationMinutes={slotDurationMinutes}
           />
-        )
+        );
       })
     )}
   </div>

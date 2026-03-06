@@ -3,8 +3,8 @@ interface Props {
   title?: string;
 }
 
-import { BUSINESS_NAME } from '../constans/business'
-import '../styles/global.css'
+import '../styles/global.css';
+import { BUSINESS_NAME } from '../constans/business';
 
 const { title = BUSINESS_NAME } = Astro.props;
 ---

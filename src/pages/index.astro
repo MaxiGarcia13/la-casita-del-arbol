@@ -1,11 +1,11 @@
 ---
-import Layout from '../layouts/Layout.astro'
-import { BUSINESS_NAME } from '../constans/business'
-import Header from '../components/header.astro'
-import Contact from '../components/contact.astro'
-import { EventCalendar, buildTimeSlots, getHourAndMinute } from '../components/event-calendar'
+import { buildTimeSlots, type CalendarEvent, EventCalendar, getHourAndMinute } from '../components/event-calendar';
+import { BUSINESS_NAME } from '../constans/business';
+import Contact from '../components/contact.astro';
+import Header from '../components/header.astro';
+import Layout from '../layouts/Layout.astro';
 
-const sampleEvents = [
+const sampleEvents: CalendarEvent[] = [
   {
     id: '1',
     dayKey: 'mar',
@@ -17,23 +17,49 @@ const sampleEvents = [
 
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-
-    ✅ Cupo lleno
-    `
+    `,
+    totalSlots: 10,
+    slotsOccupied: 9,
+    type: 'lesson',
   },
-  { id: '2', dayKey: 'jue', startTime: '12:00', durationMinutes: 120, title: 'Taller', description: '2 horas' },
-  { id: '3', dayKey: 'vie', startTime: '14:00', durationMinutes: 240, title: 'Curso intensivo', description: '3 horas' },
-  { id: '4', dayKey: 'mar', startTime: '18:30', durationMinutes: 120, title: 'Clase 18:30', description: 'Con minutos' },
-]
+  {
+    id: '2',
+    dayKey: 'jue',
+    startTime: '12:00',
+    durationMinutes: 120,
+    title: 'Taller',
+    description: '2 horas',
+    totalSlots: 10,
+    slotsOccupied: 10,
+    type: 'event',
+  },
+  {
+    id: '3',
+    dayKey: 'vie',
+    startTime: '14:00',
+    durationMinutes: 240,
+    title: 'Curso intensivo',
+    description: '3 horas'
+  },
+  {
+    id: '4',
+    dayKey: 'mar',
+    startTime: '18:30',
+    durationMinutes: 120,
+    title: 'Clase 18:30',
+    description: 'Con minutos'
+  },
+];
 
-const startHour = Math.min(...sampleEvents.map(event => getHourAndMinute(event.startTime).hour))
+const startHour = Math.min(...sampleEvents.map(event => getHourAndMinute(event.startTime).hour));
+
 const endHour = Math.max(...sampleEvents.map(event => {
-  const { hour } = getHourAndMinute(event.startTime)
+  const { hour } = getHourAndMinute(event.startTime);
 
-  return hour + (event.durationMinutes / 60) + 1
-}))
+  return hour + ((event.durationMinutes ?? 0) / 60) + 1;
+}));
 
-const timeSlots = buildTimeSlots(startHour - 1, endHour, 60)
+const timeSlots = buildTimeSlots(startHour - 1, endHour, 60);
 ---
 
   <Layout title={BUSINESS_NAME}>
