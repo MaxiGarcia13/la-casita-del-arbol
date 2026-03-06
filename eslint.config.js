@@ -10,8 +10,4 @@ export default antfu({
     semi: true,
     quotes: 'single',
   },
-
-  rules: {
-    'style/quotes': ['error', 'single'],
-  },
 });
