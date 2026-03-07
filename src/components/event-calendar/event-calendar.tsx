@@ -1,10 +1,19 @@
 import type { CalendarEvent, NormalizedCalendarEvent, TimeSlot } from './types';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { formatMonthYear, formatWeekParam, getWeekStart, parseWeekFromUrl } from '../../utils/date';
+import { useCallback, useMemo, useState } from 'react';
+import {
+  formatMonthYear,
+  formatWeekParam,
+  getStartTimeFromStartDate,
+  getWeekStart,
+  parseWeekFromUrl,
+} from '../../utils/date';
+import Skeleton from '../Skeleton';
 import CalendarCell from './calendar-cell';
 import {
+  buildTimeSlots,
   buildWeekDays,
   filterEventsToWeek,
+  getHourAndMinute,
   getSlotDurationMinutes,
   normalizeCalendarEvent,
 } from './utils';
@@ -22,28 +31,50 @@ function eventsByCell(
 
 export interface EventCalendarProps {
   events: CalendarEvent[];
-  timeSlots: TimeSlot[];
+  /** Optional: computed from events when not provided */
+  timeSlots?: TimeSlot[];
   timelineWidth?: string;
   slotHeight?: string;
   className?: string;
 }
 
+function computeTimeSlotsFromEvents(events: CalendarEvent[]): TimeSlot[] {
+  if (events.length === 0)
+    return buildTimeSlots(7, 18, 60);
+  const startHour = Math.min(
+    ...events.map(e =>
+      getHourAndMinute(getStartTimeFromStartDate(e.startDate)).hour,
+    ),
+  );
+  const endHour = Math.max(
+    ...events.map((e) => {
+      const { hour } = getHourAndMinute(
+        getStartTimeFromStartDate(e.startDate),
+      );
+      return hour + (e.durationMinutes ?? 0) / 60 + 1;
+    }),
+  );
+  return buildTimeSlots(startHour - 1, endHour, 60);
+}
+
 export default function EventCalendar({
-  events,
-  timeSlots,
+  events: initialEvents,
+  timeSlots: timeSlotsProp,
   timelineWidth = '3rem',
   slotHeight = '4rem',
   className = '',
 }: EventCalendarProps) {
   const [weekStart, setWeekStart] = useState<Date>(() => parseWeekFromUrl());
+  const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const handlePopState = () => {
-      setWeekStart(parseWeekFromUrl());
-    };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  const timeSlots = useMemo(
+    () =>
+      timeSlotsProp?.length
+        ? timeSlotsProp
+        : computeTimeSlotsFromEvents(events),
+    [events, timeSlotsProp],
+  );
 
   const days = useMemo(() => buildWeekDays(weekStart), [weekStart]);
   const filteredEvents = useMemo(
@@ -90,12 +121,25 @@ export default function EventCalendar({
   const nextHref = `${basePath}?week=${formatWeekParam(nextWeek)}`;
   const todayHref = basePath;
 
-  const goToWeek = useCallback((d: Date) => {
+  const goToWeek = useCallback(async (d: Date) => {
     const target = getWeekStart(d);
     const isCurrentWeek = target.getTime() === thisWeekMonday.getTime();
     const url = isCurrentWeek ? basePath : `${basePath}?week=${formatWeekParam(target)}`;
     window.history.pushState({}, '', url);
     setWeekStart(target);
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `/api/sample-events.json?week=${formatWeekParam(target)}`,
+      );
+      if (res.ok) {
+        const data = await res.json();
+        setEvents(data);
+      }
+    }
+    finally {
+      setLoading(false);
+    }
   }, [basePath, thisWeekMonday]);
 
   return (
@@ -151,53 +195,61 @@ export default function EventCalendar({
         </div>
       </header>
 
-      <div className="flex min-h-0 flex-1">
-        <aside
-          className="shrink border-r-2 border-charcoal"
-          aria-label="Horarios"
-          role="complementary"
-          style={{ width: timelineWidth }}
-        >
-          <div className="flex flex-col">
-            {timeSlots.map(slot => (
-              <div
-                key={slot.label}
-                className="text-charcoal flex min-h-(--calendar-slot-height,2rem) items-start justify-end border-b border-black/15 py-1 pt-1 pr-2 text-xs"
+      {loading
+        ? (
+            <div className="flex-1 min-h-[200px] border-t-2 border-charcoal">
+              <Skeleton variant="calendar" rows={8} className="h-full" />
+            </div>
+          )
+        : (
+            <div className="flex min-h-0 flex-1">
+              <aside
+                className="shrink border-r-2 border-charcoal"
+                aria-label="Horarios"
+                role="complementary"
+                style={{ width: timelineWidth }}
               >
-                <span className="whitespace-nowrap">{slot.label}</span>
+                <div className="flex flex-col">
+                  {timeSlots.map(slot => (
+                    <div
+                      key={slot.label}
+                      className="text-charcoal flex min-h-(--calendar-slot-height,2rem) items-start justify-end border-b border-black/15 py-1 pt-1 pr-2 text-xs"
+                    >
+                      <span className="whitespace-nowrap">{slot.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </aside>
+              <div
+                className="event-calendar-grid grid flex-1 min-w-0"
+                style={{
+                  ['--calendar-slot-height' as string]: slotHeight,
+                  gridTemplateColumns: 'repeat(var(--calendar-days-count, 7), 1fr)',
+                  gridAutoRows: `var(--calendar-slot-height, 4rem)`,
+                } as React.CSSProperties}
+                role="grid"
+                aria-label="Calendario de eventos"
+              >
+                {timeSlots.map((_, slotIndex) =>
+                  days.map((day, dayIndex) => {
+                    const key = `${day.key}-${slotIndex}`;
+                    const event = byCell.get(key);
+                    const isToday = dayIndex === todayColumnIndex;
+                    return (
+                      <CalendarCell
+                        key={key}
+                        dayKey={day.key}
+                        slotIndex={slotIndex}
+                        slotDurationMinutes={slotDurationMinutes}
+                        event={event}
+                        className={isToday ? 'bg-charcoal/10' : ''}
+                      />
+                    );
+                  }),
+                )}
               </div>
-            ))}
-          </div>
-        </aside>
-        <div
-          className="event-calendar-grid grid flex-1 min-w-0"
-          style={{
-            ['--calendar-slot-height' as string]: slotHeight,
-            gridTemplateColumns: 'repeat(var(--calendar-days-count, 7), 1fr)',
-            gridAutoRows: `var(--calendar-slot-height, 4rem)`,
-          } as React.CSSProperties}
-          role="grid"
-          aria-label="Calendario de eventos"
-        >
-          {timeSlots.map((_, slotIndex) =>
-            days.map((day, dayIndex) => {
-              const key = `${day.key}-${slotIndex}`;
-              const event = byCell.get(key);
-              const isToday = dayIndex === todayColumnIndex;
-              return (
-                <CalendarCell
-                  key={key}
-                  dayKey={day.key}
-                  slotIndex={slotIndex}
-                  slotDurationMinutes={slotDurationMinutes}
-                  event={event}
-                  className={isToday ? 'bg-charcoal/10' : ''}
-                />
-              );
-            }),
+            </div>
           )}
-        </div>
-      </div>
     </div>
   );
 }

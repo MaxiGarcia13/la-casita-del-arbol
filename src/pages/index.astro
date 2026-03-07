@@ -14,90 +14,47 @@ import EventPreviewCard from '../components/event-preview-card.astro';
 import Header from '../components/header.astro';
 import { BUSINESS_NAME } from '../constans/business';
 import Layout from '../layouts/Layout.astro';
+import { formatWeekParam, getWeekStart } from '../utils/date';
 
-const upcomingEvents: UpcomingEvent[] = [
-  {
-    title: 'Taller de cerámica para principiantes',
-    description:
-      'Un fin de semana para aprender las bases del torno y la mano. Incluye materiales y horneado.',
-    dateLabel: 'Próximamente',
-    ctaLabel: 'Quiero más información',
-    ctaMessage:
-      'Hola, me interesa el taller de cerámica para principiantes. ¿Cuándo es y cómo me inscribo?',
-  },
-  {
-    title: 'Curso intensivo de verano',
-    description:
-      'Una semana de inmersión en cerámica. Niveles inicial e intermedio.',
-    dateLabel: 'Enero 2026',
-    ctaLabel: 'Consultar',
-  },
-  {
-    title: 'Noche de cerámica y vino',
-    description:
-      'Una tarde para crear tu pieza mientras disfrutás un buen vino. Ideal para regalar o para hacer algo distinto.',
-    dateLabel: 'Por confirmar',
-  },
-];
+const baseUrl = Astro.url.origin;
+const weekParam = Astro.url.searchParams.get('week');
+const weekStart = weekParam
+  ? getWeekStart(new Date(weekParam))
+  : getWeekStart(new Date());
+const sampleEventsUrl = new URL('/api/sample-events.json', baseUrl);
+sampleEventsUrl.searchParams.set('week', formatWeekParam(weekStart));
 
-const sampleEvents: CalendarEvent[] = [
-  {
-    id: '1',
-    startDate: new Date().toISOString(),
-    durationMinutes: 60,
-    title: 'Clase cerámica',
-    description: `
-    Turno mañana, 10:15 - 11:15 de 2 horas.
+const [upcomingRes, sampleRes] = await Promise.all([
+  fetch(new URL('/api/upcoming-events.json', baseUrl).href),
+  fetch(sampleEventsUrl.href),
+]);
 
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-    `,
-    totalSlots: 10,
-    slotsOccupied: 9,
-    type: 'lesson',
-  },
-  {
-    id: '2',
-    startDate: '2025-03-06T12:00:00',
-    durationMinutes: 120,
-    title: 'Taller',
-    description: '2 horas',
-    totalSlots: 10,
-    slotsOccupied: 10,
-    type: 'event',
-  },
-  {
-    id: '3',
-    startDate: '2025-03-07T14:00:00',
-    durationMinutes: 240,
-    title: 'Curso intensivo',
-    description: '3 horas',
-  },
-  {
-    id: '4',
-    startDate: '2025-03-04T18:30:00',
-    durationMinutes: 120,
-    title: 'Clase 18:30',
-    description: 'Con minutos',
-  },
-];
+if (!upcomingRes.ok || !sampleRes.ok) {
+  throw new Error('Failed to fetch events from API');
+}
 
-const startHour = Math.min(
-  ...sampleEvents.map(
-    event =>
-      getHourAndMinute(getStartTimeFromStartDate(event.startDate)).hour,
-  ),
-);
+const upcomingEvents: UpcomingEvent[] = await upcomingRes.json();
+const sampleEvents: CalendarEvent[] = await sampleRes.json();
 
-const endHour = Math.max(
-  ...sampleEvents.map((event) => {
-    const { hour } = getHourAndMinute(
-      getStartTimeFromStartDate(event.startDate),
-    );
-
-    return hour + (event.durationMinutes ?? 0) / 60 + 1;
-  }),
-);
+const hasCalendarEvents = sampleEvents.length > 0;
+const startHour = hasCalendarEvents
+  ? Math.min(
+      ...sampleEvents.map(
+        event =>
+          getHourAndMinute(getStartTimeFromStartDate(event.startDate)).hour,
+      ),
+    )
+  : 8;
+const endHour = hasCalendarEvents
+  ? Math.max(
+      ...sampleEvents.map((event) => {
+        const { hour } = getHourAndMinute(
+          getStartTimeFromStartDate(event.startDate),
+        );
+        return hour + (event.durationMinutes ?? 0) / 60 + 1;
+      }),
+    )
+  : 18;
 
 const timeSlots = buildTimeSlots(startHour - 1, endHour, 60);
 ---
@@ -111,7 +68,11 @@ const timeSlots = buildTimeSlots(startHour - 1, endHour, 60);
     <Contact />
 
     <h2 class="text-2xl font-bold" id="lessons-calendar">Clases</h2>
-    <EventCalendar client:load events={sampleEvents} timeSlots={timeSlots} />
+    <EventCalendar
+      client:only="react"
+      events={sampleEvents}
+      timeSlots={timeSlots}
+    />
 
     <h2 class="text-2xl font-bold" id="events-calendar">Eventos</h2>
     <ul class="flex flex-col gap-4" aria-label="Próximos eventos y novedades">
