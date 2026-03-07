@@ -1,3 +1,5 @@
+import { LinkButton } from '../link-button';
+
 export interface WeekNavProps {
   monthLabel: string;
   isPrevDisabled: boolean;
@@ -27,48 +29,43 @@ export default function WeekNav({
       <span className="text-sm font-semibold">
         {monthLabel}
       </span>
-      <div className="flex flex-wrap items-center gap-2">
-        {isPrevDisabled
-          ? (
-              <span
-                className="rounded border-2 border-charcoal/40 bg-charcoal/5 px-3 py-1.5 text-sm font-medium text-charcoal/50 cursor-not-allowed"
-                aria-disabled
-              >
-                ← Semana anterior
-              </span>
-            )
-          : (
-              <a
-                href={prevHref}
-                className="rounded border-2 border-charcoal bg-surface px-3 py-1.5 text-sm font-medium transition hover:bg-charcoal/10"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onPrevClick(e);
-                }}
-              >
-                ← Semana anterior
-              </a>
-            )}
-        <a
+      <div className="flex items-center gap-2">
+
+        <LinkButton
+          className="max-w-[150px] md:max-w-none"
+          href={prevHref}
+          disabled={isPrevDisabled}
+          onClick={(e) => {
+            e.preventDefault();
+            onPrevClick(e);
+          }}
+        >
+          ←
+          {' '}
+          <span className="truncate">Semana anterior</span>
+        </LinkButton>
+
+        <LinkButton
           href={todayHref}
-          className="rounded border-2 border-charcoal bg-surface px-3 py-1.5 text-sm font-medium transition hover:bg-charcoal/10"
           onClick={(e) => {
             e.preventDefault();
             onTodayClick(e);
           }}
         >
           Hoy
-        </a>
-        <a
+        </LinkButton>
+        <LinkButton
+          className="max-w-[150px] md:max-w-none"
           href={nextHref}
-          className="rounded border-2 border-charcoal bg-surface px-3 py-1.5 text-sm font-medium transition hover:bg-charcoal/10"
           onClick={(e) => {
             e.preventDefault();
             onNextClick(e);
           }}
         >
-          Semana siguiente →
-        </a>
+          <span className="truncate">Semana siguiente</span>
+          {' '}
+          →
+        </LinkButton>
       </div>
     </nav>
   );

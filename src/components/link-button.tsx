@@ -8,6 +8,8 @@ export interface LinkButtonProps {
   className?: string;
   ariaLabel?: string;
   children?: ReactNode;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  disabled?: boolean;
 }
 
 export function LinkButton(props: LinkButtonProps) {
@@ -18,18 +20,34 @@ export function LinkButton(props: LinkButtonProps) {
     className = '',
     children,
     ariaLabel,
+    onClick,
+    disabled = false,
   } = props;
+
+  const classNames = cn(
+    'inline-flex items-center justify-center gap-2 text-sm font-medium rounded border-2 px-3 py-1.5',
+    className,
+  );
+
+  if (disabled) {
+    return (
+      <span
+        className={cn(classNames, 'border-charcoal/40 bg-charcoal/5 text-charcoal/50 cursor-not-allowed')}
+        aria-disabled
+      >
+        {children}
+      </span>
+    );
+  }
 
   return (
     <a
       href={href}
       target={target}
       rel={rel}
-      className={cn(
-        'inline-flex items-center justify-center gap-2 rounded border-2 px-4 py-2.5',
-        className,
-      )}
+      className={cn(classNames, 'hover:bg-charcoal/10')}
       aria-label={ariaLabel}
+      onClick={onClick}
     >
       {children}
     </a>
