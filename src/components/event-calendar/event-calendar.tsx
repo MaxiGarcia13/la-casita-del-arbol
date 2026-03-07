@@ -1,6 +1,7 @@
 import type { CalendarEvent, NormalizedCalendarEvent, TimeSlot } from './types';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  addWeeks,
   formatMonthYear,
   formatWeekParam,
   getStartTimeFromStartDate,
@@ -19,6 +20,24 @@ import {
 } from './utils';
 import WeekNav from './week-nav';
 
+const SAMPLE_EVENTS_API = '/api/sample-events.json';
+
+async function fetchEventsForWeek(week: Date): Promise<CalendarEvent[]> {
+  const res = await fetch(
+    `${SAMPLE_EVENTS_API}?week=${formatWeekParam(getWeekStart(week))}`,
+  );
+  if (!res.ok)
+    throw new Error('Failed to fetch events');
+  return res.json();
+}
+
+function getWeekHref(basePath: string, week: Date): string {
+  const target = getWeekStart(week);
+  const isCurrentWeek
+    = target.getTime() === getWeekStart(new Date()).getTime();
+  return isCurrentWeek ? basePath : `${basePath}?week=${formatWeekParam(target)}`;
+}
+
 function eventsByCell(
   eventsList: NormalizedCalendarEvent[],
 ): Map<string, NormalizedCalendarEvent> {
@@ -30,7 +49,8 @@ function eventsByCell(
 }
 
 export interface EventCalendarProps {
-  events: CalendarEvent[];
+  /** Optional: when not provided, events are fetched inside the component */
+  events?: CalendarEvent[];
   /** Optional: computed from events when not provided */
   timeSlots?: TimeSlot[];
   timelineWidth?: string;
@@ -41,19 +61,16 @@ export interface EventCalendarProps {
 function computeTimeSlotsFromEvents(events: CalendarEvent[]): TimeSlot[] {
   if (events.length === 0)
     return buildTimeSlots(7, 18, 60);
-  const startHour = Math.min(
-    ...events.map(e =>
-      getHourAndMinute(getStartTimeFromStartDate(e.startDate)).hour,
-    ),
-  );
-  const endHour = Math.max(
-    ...events.map((e) => {
-      const { hour } = getHourAndMinute(
-        getStartTimeFromStartDate(e.startDate),
-      );
-      return hour + (e.durationMinutes ?? 0) / 60 + 1;
-    }),
-  );
+  let startHour = 24;
+  let endHour = 0;
+  for (const e of events) {
+    const { hour } = getHourAndMinute(getStartTimeFromStartDate(e.startDate));
+    startHour = Math.min(startHour, hour);
+    endHour = Math.max(
+      endHour,
+      hour + (e.durationMinutes ?? 0) / 60 + 1,
+    );
+  }
   return buildTimeSlots(startHour - 1, endHour, 60);
 }
 
@@ -65,8 +82,26 @@ export default function EventCalendar({
   className = '',
 }: EventCalendarProps) {
   const [weekStart, setWeekStart] = useState<Date>(() => parseWeekFromUrl());
-  const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
-  const [loading, setLoading] = useState(false);
+  const [events, setEvents] = useState<CalendarEvent[]>(initialEvents ?? []);
+  const [loading, setLoading] = useState(!(initialEvents?.length));
+
+  useEffect(() => {
+    if (initialEvents?.length)
+      return;
+    let cancelled = false;
+    fetchEventsForWeek(weekStart)
+      .then((data) => {
+        if (!cancelled)
+          setEvents(data);
+      })
+      .finally(() => {
+        if (!cancelled)
+          setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const timeSlots = useMemo(
     () =>
@@ -105,42 +140,30 @@ export default function EventCalendar({
     return Math.round((t - start) / (24 * 60 * 60 * 1000));
   }, [weekStart]);
 
-  const prevWeek = useMemo(() => {
-    const d = new Date(weekStart);
-    d.setDate(d.getDate() - 7);
-    return d;
-  }, [weekStart]);
-  const nextWeek = useMemo(() => {
-    const d = new Date(weekStart);
-    d.setDate(d.getDate() + 7);
-    return d;
-  }, [weekStart]);
+  const prevWeek = useMemo(() => addWeeks(weekStart, -1), [weekStart]);
+  const nextWeek = useMemo(() => addWeeks(weekStart, 1), [weekStart]);
 
-  const basePath = typeof window !== 'undefined' ? window.location.pathname : '/';
-  const prevHref = `${basePath}?week=${formatWeekParam(prevWeek)}`;
-  const nextHref = `${basePath}?week=${formatWeekParam(nextWeek)}`;
-  const todayHref = basePath;
+  const basePath
+    = typeof window !== 'undefined' ? window.location.pathname : '/';
+  const prevHref = getWeekHref(basePath, prevWeek);
+  const nextHref = getWeekHref(basePath, nextWeek);
 
-  const goToWeek = useCallback(async (d: Date) => {
-    const target = getWeekStart(d);
-    const isCurrentWeek = target.getTime() === thisWeekMonday.getTime();
-    const url = isCurrentWeek ? basePath : `${basePath}?week=${formatWeekParam(target)}`;
-    window.history.pushState({}, '', url);
-    setWeekStart(target);
-    setLoading(true);
-    try {
-      const res = await fetch(
-        `/api/sample-events.json?week=${formatWeekParam(target)}`,
-      );
-      if (res.ok) {
-        const data = await res.json();
+  const goToWeek = useCallback(
+    async (d: Date) => {
+      const target = getWeekStart(d);
+      window.history.pushState({}, '', getWeekHref(basePath, target));
+      setWeekStart(target);
+      setLoading(true);
+      try {
+        const data = await fetchEventsForWeek(target);
         setEvents(data);
       }
-    }
-    finally {
-      setLoading(false);
-    }
-  }, [basePath, thisWeekMonday]);
+      finally {
+        setLoading(false);
+      }
+    },
+    [basePath],
+  );
 
   return (
     <div
@@ -157,7 +180,7 @@ export default function EventCalendar({
         isPrevDisabled={isPrevWeekDisabled}
         prevHref={prevHref}
         onPrevClick={() => goToWeek(prevWeek)}
-        todayHref={todayHref}
+        todayHref={basePath}
         onTodayClick={() => goToWeek(new Date())}
         nextHref={nextHref}
         onNextClick={() => goToWeek(nextWeek)}

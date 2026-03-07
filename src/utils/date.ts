@@ -10,6 +10,13 @@ export function getWeekStart(date: Date): Date {
   return d;
 }
 
+/** Add or subtract whole weeks from a date. */
+export function addWeeks(date: Date, weeks: number): Date {
+  const d = new Date(date);
+  d.setDate(d.getDate() + weeks * 7);
+  return d;
+}
+
 /** Day key (lun, mar, …) for a given Date. */
 export function getDayKeyFromDate(date: Date): string {
   return DAY_INDEX_TO_KEY[date.getDay()];
