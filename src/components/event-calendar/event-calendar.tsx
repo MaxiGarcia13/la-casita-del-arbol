@@ -8,6 +8,7 @@ import {
   getWeekStart,
   parseWeekFromUrl,
 } from '../../utils/date';
+import { FetchErrorAlert } from '../fetch-error-alert';
 import { EventCalendarLoader } from './event-calendar-loader';
 import EventCalendarView from './event-calendar-view';
 import { buildTimeSlots, getHourAndMinute, getStartTimeFromStartDate } from './utils';
@@ -47,6 +48,7 @@ export default function EventCalendar({
   const [weekStart, setWeekStart] = useState<Date>(() => parseWeekFromUrl());
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -54,6 +56,10 @@ export default function EventCalendar({
       .then((data) => {
         if (!cancelled)
           setEvents(data);
+      })
+      .catch((err) => {
+        if (!cancelled)
+          setError(err instanceof Error ? err.message : 'Error');
       })
       .finally(() => {
         if (!cancelled)
@@ -87,9 +93,13 @@ export default function EventCalendar({
       window.history.pushState({}, '', getWeekHref(basePath, target));
       setWeekStart(target);
       setLoading(true);
+      setError(null);
       try {
         const data = await fetchEventsForWeek(target);
         setEvents(data);
+      }
+      catch (err) {
+        setError(err instanceof Error ? err.message : 'Error');
       }
       finally {
         setLoading(false);
@@ -100,6 +110,15 @@ export default function EventCalendar({
 
   if (loading) {
     return <EventCalendarLoader className={className} rows={4} />;
+  }
+
+  if (error) {
+    return (
+      <FetchErrorAlert
+        message="No se pudieron cargar las clases."
+        error={error}
+      />
+    );
   }
 
   return (

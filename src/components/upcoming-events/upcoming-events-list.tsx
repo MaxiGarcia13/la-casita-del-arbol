@@ -1,6 +1,7 @@
 import type { UpcomingEvent } from '../event-calendar/types';
 import { useEffect, useState } from 'react';
 import { fetchUpcomingEvents } from '../../services/upcoming-events';
+import { FetchErrorAlert } from '../fetch-error-alert';
 import { UpcomingEventCard } from './upcoming-event-card';
 import { UpcomingEventLoader } from './upcoming-event-loader';
 
@@ -35,11 +36,10 @@ export default function UpcomingEventsList() {
 
   if (error) {
     return (
-      <p className="text-charcoal/80 text-sm" role="alert">
-        No se pudieron cargar los eventos.
-        <br />
-        {error}
-      </p>
+      <FetchErrorAlert
+        message="No se pudieron cargar los eventos."
+        error={error}
+      />
     );
   }
 
