@@ -20,11 +20,12 @@
     "prepare": "simple-git-hooks",
     "lint": "eslint .",
     "format": "eslint . --fix",
-    "phoenix": "rm -rf node_modules && rm package-lock.json && npm install"
+    "clean": "rm -rf node_modules && rm -rf package-lock.json && rm -rf dist && rm -rf .vercel && rm -rf .astro",
+    "phoenix": "npm run clean && npm install"
   },
   "dependencies": {
-    "@astrojs/node": "^9.5.4",
     "@astrojs/react": "^4.4.2",
+    "@astrojs/vercel": "^9.0.4",
     "astro": "^5.18.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"

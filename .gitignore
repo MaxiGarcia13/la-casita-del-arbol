@@ -7,6 +7,9 @@ dist/
 # Astro
 .astro/
 
+# Vercel
+.vercel/
+
 # Environment
 .env
 .env.*
@@ -24,15 +27,8 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-
-# Coverage directory used by tools like istanbul
-coverage
-*.lcov
-
 # Optional npm cache directory
 .npm
-
-
 
 # Output of 'npm pack'
 *.tgz
