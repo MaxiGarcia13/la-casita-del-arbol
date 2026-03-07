@@ -1,22 +1,12 @@
 ---
-import type { UpcomingEvent } from '../components/event-calendar';
 import Contact from '../components/contact.astro';
 import { EventCalendar } from '../components/event-calendar';
-import EventPreviewCard from '../components/event-preview-card.astro';
 import Header from '../components/header.astro';
+import UpcomingEventsList from '../components/upcoming-events-list';
 import { BUSINESS_NAME } from '../constans/business';
 import Layout from '../layouts/layout.astro';
 
-export const prerender = false;
-
-const baseUrl = Astro.url.origin;
-const upcomingRes = await fetch(new URL('/api/upcoming-events.json', baseUrl).href);
-
-if (!upcomingRes.ok) {
-  throw new Error('Failed to fetch events from API');
-}
-
-const upcomingEvents: UpcomingEvent[] = await upcomingRes.json();
+export const prerender = true;
 ---
 
 <Layout title={BUSINESS_NAME}>
@@ -31,14 +21,6 @@ const upcomingEvents: UpcomingEvent[] = await upcomingRes.json();
     <EventCalendar client:only="react" />
 
     <h2 class="text-2xl font-bold" id="events-calendar">Eventos</h2>
-    <ul class="flex flex-col gap-4" aria-label="Próximos eventos y novedades">
-      {
-        upcomingEvents.map(event => (
-          <li>
-            <EventPreviewCard event={event} />
-          </li>
-        ))
-      }
-    </ul>
+    <UpcomingEventsList client:only="react" />
   </main>
 </Layout>
