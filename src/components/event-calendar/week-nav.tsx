@@ -32,7 +32,7 @@ export default function WeekNav({
       <div className="flex items-center gap-2">
 
         <LinkButton
-          className="max-w-[150px] md:max-w-none"
+          className="max-w-[140px] md:max-w-none"
           href={prevHref}
           disabled={isPrevDisabled}
           onClick={(e) => {
@@ -55,7 +55,7 @@ export default function WeekNav({
           Hoy
         </LinkButton>
         <LinkButton
-          className="max-w-[150px] md:max-w-none"
+          className="max-w-[140px] md:max-w-none"
           href={nextHref}
           onClick={(e) => {
             e.preventDefault();
