@@ -34,11 +34,11 @@ import { WhatsappLinkButton } from './whatsapp-link-button.tsx';
     </p>
     <p>Estoy en <span class="font-bold">La Plata, Argentina</span>.</p>
     <div class="mt-2 flex flex-wrap gap-2">
-      <WhatsappLinkButton client:only="react"> WhatsApp </WhatsappLinkButton>
+      <WhatsappLinkButton client:load> WhatsApp </WhatsappLinkButton>
       <LinkButton
         href={INSTAGRAM_URL}
         aria-label="Instagram la casita del árbol"
-        client:idle
+        client:load
       >
         <InstagramIcon class="size-5 shrink-0 text-current" />
         Instagram
@@ -46,7 +46,7 @@ import { WhatsappLinkButton } from './whatsapp-link-button.tsx';
       <LinkButton
         href={SPOTIFY_URL}
         aria-label="Spotify la casita del árbol"
-        client:idle
+        client:load
       >
         <MusicIcon class="size-5 shrink-0 text-current" />
         Spotify
