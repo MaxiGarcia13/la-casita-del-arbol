@@ -26,7 +26,7 @@ export function WhatsappLinkButton({
     <LinkButton
       href={DEFAULT_HREF + (message ? `?text=${message}` : '')}
       ariaLabel={ariaLabel}
-      className={cn(variant === 'filled' && 'inline-flex items-center gap-2 rounded-lg border-2 border-[#25D366] bg-[#25D366] px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-[#20bd5a]', className)}
+      className={cn(variant === 'filled' && 'inline-flex items-center gap-2 rounded border-2 border-[#25D366] bg-[#25D366] px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-[#20bd5a]', className)}
     >
       <WhatsappIcon />
       {children}

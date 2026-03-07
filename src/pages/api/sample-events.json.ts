@@ -7,7 +7,7 @@ import { getWeekStart } from '../../utils/date';
 export const sampleEvents: CalendarEvent[] = [
   {
     id: '1',
-    startDate: new Date().toISOString(),
+    startDate: new Date().toString(),
     durationMinutes: 60,
     title: 'Clase cerámica',
     description: `

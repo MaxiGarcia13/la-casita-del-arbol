@@ -13,7 +13,7 @@ export function UpcomingEventCard({ event }: { event: UpcomingEvent }) {
     = ctaMessage ?? `Hola, me gustaría más información sobre: ${title}`;
 
   return (
-    <article className="rounded-lg border border-charcoal/20 bg-surface p-4 text-charcoal transition-shadow hover:shadow-md">
+    <article className="rounded border border-charcoal/20 bg-surface p-4 text-charcoal transition-shadow hover:shadow-md">
       <header>
         <h3 className="text-lg font-semibold wrap-break-word">{title}</h3>
         <p className="mt-1 text-sm text-charcoal/80">{dateLabel}</p>

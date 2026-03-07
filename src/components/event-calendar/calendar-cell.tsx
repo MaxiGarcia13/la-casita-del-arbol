@@ -32,8 +32,7 @@ export default function CalendarCell({
     useDurationHeight: boolean,
   ): void {
     const spanSlots = event.spanSlots ?? 1;
-    const hasOffsetMinutes = event.offsetMinutes != null && event.offsetMinutes > 0;
-    const gap = hasOffsetMinutes ? 0 : 8;
+    const gap = 0;
 
     if (useDurationHeight && event.durationMinutes != null) {
       const heightSlots = event.durationMinutes / slotDurationMinutes;
@@ -44,7 +43,7 @@ export default function CalendarCell({
       card.style.top = '';
       card.style.height = `${parent.clientHeight * spanSlots - gap}px`;
     }
-    card.style.width = `${parent.clientWidth - 8}px`;
+    card.style.width = `${parent.clientWidth}px`;
   }
 
   useEffect(() => {
@@ -84,7 +83,7 @@ export default function CalendarCell({
         ? (
             <EventCard
               ref={cardRef}
-              className={useAbsolute ? 'absolute top-1 left-1' : undefined}
+              className={useAbsolute ? 'absolute top-0 left-0' : undefined}
               {...event}
             />
           )

@@ -26,7 +26,7 @@ export function LinkButton(props: LinkButtonProps) {
       target={target}
       rel={rel}
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-lg border-2 px-4 py-2.5',
+        'inline-flex items-center justify-center gap-2 rounded border-2 px-4 py-2.5',
         className,
       )}
       aria-label={ariaLabel}
