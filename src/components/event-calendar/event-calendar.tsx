@@ -7,7 +7,7 @@ import {
   getWeekStart,
   parseWeekFromUrl,
 } from '../../utils/date';
-import Skeleton from '../Skeleton';
+import { EventCalendarLoader } from './event-calendar-loader';
 import EventCalendarView from './event-calendar-view';
 import { buildTimeSlots, getHourAndMinute, getStartTimeFromStartDate } from './utils';
 
@@ -117,15 +117,7 @@ export default function EventCalendar({
   );
 
   if (loading) {
-    return (
-      <div
-        className={`flex flex-col w-full max-w-full overflow-auto rounded border-2 border-charcoal relative bg-surface ${className}`.trim()}
-      >
-        <div className="flex-1 min-h-[200px] border-t-2 border-charcoal">
-          <Skeleton variant="calendar" rows={4} className="h-full" />
-        </div>
-      </div>
-    );
+    return <EventCalendarLoader className={className} rows={4} />;
   }
 
   return (
