@@ -1,5 +1,6 @@
 import type { CalendarEvent, TimeSlot } from './types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { fetchEventsForWeek } from '../../services/events-for-week';
 import {
   addWeeks,
   formatMonthYear,
@@ -10,17 +11,6 @@ import {
 import { EventCalendarLoader } from './event-calendar-loader';
 import EventCalendarView from './event-calendar-view';
 import { buildTimeSlots, getHourAndMinute, getStartTimeFromStartDate } from './utils';
-
-const SAMPLE_EVENTS_API = '/api/sample-events.json';
-
-async function fetchEventsForWeek(week: Date): Promise<CalendarEvent[]> {
-  const res = await fetch(
-    `${SAMPLE_EVENTS_API}?week=${formatWeekParam(getWeekStart(week))}`,
-  );
-  if (!res.ok)
-    throw new Error('Failed to fetch events');
-  return res.json();
-}
 
 function getWeekHref(basePath: string, week: Date): string {
   const target = getWeekStart(week);

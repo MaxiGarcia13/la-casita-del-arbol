@@ -1,15 +1,7 @@
 import type { UpcomingEvent } from './event-calendar/types';
 import { useEffect, useState } from 'react';
+import { fetchUpcomingEvents } from '../services/upcoming-events';
 import { WhatsappLinkButton } from './whatsapp-link-button';
-
-const UPCOMING_EVENTS_API = '/api/upcoming-events.json';
-
-async function fetchUpcomingEvents(): Promise<UpcomingEvent[]> {
-  const res = await fetch(UPCOMING_EVENTS_API);
-  if (!res.ok)
-    throw new Error('Failed to fetch upcoming events');
-  return res.json();
-}
 
 function UpcomingEventCard({ event }: { event: UpcomingEvent }) {
   const {
