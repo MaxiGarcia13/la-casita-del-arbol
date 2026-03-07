@@ -5,7 +5,9 @@ import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    imageService: true,
+  }),
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],
