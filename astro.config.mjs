@@ -1,11 +1,11 @@
 import react from '@astrojs/react';
-import vercel from '@astrojs/vercel';
+import vercelServerless from '@astrojs/vercel/serverless';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  output: 'server',
-  adapter: vercel({
+  output: 'static',
+  adapter: vercelServerless({
     imageService: true,
   }),
   integrations: [react()],
