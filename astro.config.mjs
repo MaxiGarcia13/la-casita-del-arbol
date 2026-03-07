@@ -7,6 +7,7 @@ export default defineConfig({
   output: 'static',
   adapter: vercelServerless({
     imageService: true,
+    edgeMiddleware: true,
   }),
   integrations: [react()],
   vite: {
