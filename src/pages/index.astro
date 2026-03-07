@@ -43,7 +43,7 @@ const upcomingEvents: UpcomingEvent[] = [
 const sampleEvents: CalendarEvent[] = [
   {
     id: '1',
-    startDate: '2025-03-04T10:15:00',
+    startDate: new Date().toISOString(),
     durationMinutes: 60,
     title: 'Clase cerámica',
     description: `
@@ -83,12 +83,17 @@ const sampleEvents: CalendarEvent[] = [
 ];
 
 const startHour = Math.min(
-  ...sampleEvents.map(event => getHourAndMinute(getStartTimeFromStartDate(event.startDate)).hour),
+  ...sampleEvents.map(
+    event =>
+      getHourAndMinute(getStartTimeFromStartDate(event.startDate)).hour,
+  ),
 );
 
 const endHour = Math.max(
   ...sampleEvents.map((event) => {
-    const { hour } = getHourAndMinute(getStartTimeFromStartDate(event.startDate));
+    const { hour } = getHourAndMinute(
+      getStartTimeFromStartDate(event.startDate),
+    );
 
     return hour + (event.durationMinutes ?? 0) / 60 + 1;
   }),
@@ -106,7 +111,7 @@ const timeSlots = buildTimeSlots(startHour - 1, endHour, 60);
     <Contact />
 
     <h2 class="text-2xl font-bold" id="lessons-calendar">Clases</h2>
-    <EventCalendar events={sampleEvents} timeSlots={timeSlots} />
+    <EventCalendar client:load events={sampleEvents} timeSlots={timeSlots} />
 
     <h2 class="text-2xl font-bold" id="events-calendar">Eventos</h2>
     <ul class="flex flex-col gap-4" aria-label="Próximos eventos y novedades">

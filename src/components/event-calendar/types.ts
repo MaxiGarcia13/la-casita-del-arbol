@@ -2,6 +2,10 @@ export interface CalendarDay {
   key: string;
   label: string;
   fullName?: string;
+  /** Short day name for display (e.g. "Lun", "Mar"). */
+  shortName?: string;
+  /** Day of month (1–31) for display. */
+  dayOfMonth?: number;
 }
 
 export interface TimeSlot {

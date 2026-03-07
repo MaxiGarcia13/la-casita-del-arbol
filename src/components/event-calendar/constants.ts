@@ -1,11 +1,11 @@
 import type { CalendarDay } from './types';
 
 export const DEFAULT_DAYS: CalendarDay[] = [
-  { key: 'lun', label: 'L', fullName: 'Lunes' },
-  { key: 'mar', label: 'M', fullName: 'Martes' },
-  { key: 'mie', label: 'M', fullName: 'Miércoles' },
-  { key: 'jue', label: 'J', fullName: 'Jueves' },
-  { key: 'vie', label: 'V', fullName: 'Viernes' },
-  { key: 'sab', label: 'S', fullName: 'Sábado' },
-  { key: 'dom', label: 'D', fullName: 'Domingo' },
+  { key: 'lun', label: 'L', shortName: 'Lun', fullName: 'Lunes' },
+  { key: 'mar', label: 'M', shortName: 'Mar', fullName: 'Martes' },
+  { key: 'mie', label: 'M', shortName: 'Mié', fullName: 'Miércoles' },
+  { key: 'jue', label: 'J', shortName: 'Jue', fullName: 'Jueves' },
+  { key: 'vie', label: 'V', shortName: 'Vie', fullName: 'Viernes' },
+  { key: 'sab', label: 'S', shortName: 'Sáb', fullName: 'Sábado' },
+  { key: 'dom', label: 'D', shortName: 'Dom', fullName: 'Domingo' },
 ];

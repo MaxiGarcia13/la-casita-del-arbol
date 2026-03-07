@@ -1,25 +1,45 @@
-import type { CalendarEvent, NormalizedCalendarEvent, TimeSlot } from './types';
+import type { CalendarDay, CalendarEvent, NormalizedCalendarEvent, TimeSlot } from './types';
+import { getDayKeyFromDate, getDayKeyFromStartDate, getStartTimeFromStartDate } from '../../utils/date';
 import { DEFAULT_DAYS } from './constants';
 
-/** JS getDay(): 0=Sun, 1=Mon, … 6=Sat → keys: lun, mar, … dom */
-const DAY_INDEX_TO_KEY = ['dom', 'lun', 'mar', 'mie', 'jue', 'vie', 'sab'] as const;
+export { getDayKeyFromDate, getDayKeyFromStartDate, getStartTimeFromStartDate, getWeekStart } from '../../utils/date';
 
-function parseStartDate(startDate: string): Date {
-  const d = new Date(startDate);
-  if (Number.isNaN(d.getTime()))
-    throw new Error(`Invalid startDate: ${startDate}`);
-  return d;
+/**
+ * Build 7 days Mon … Sun from weekStart (Monday).
+ * Uses short day name + date (e.g. "Lun 4", "Mar 5") for display.
+ */
+export function buildWeekDays(weekStart: Date): CalendarDay[] {
+  const days: CalendarDay[] = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(weekStart);
+    d.setDate(weekStart.getDate() + i);
+    const key = getDayKeyFromDate(d);
+    const defaultDay = DEFAULT_DAYS.find(x => x.key === key);
+    const dayName = defaultDay?.shortName ?? defaultDay?.label ?? '';
+    const dayNum = d.getDate();
+    const label = dayName ? `${dayName} ${dayNum}` : `${dayNum}`;
+    days.push({
+      key,
+      label,
+      shortName: defaultDay?.shortName,
+      fullName: defaultDay?.fullName,
+      dayOfMonth: dayNum,
+    });
+  }
+  return days;
 }
 
-/** Derive weekday key from startDate (e.g. "2025-03-04T10:15:00" → "mar") */
-export function getDayKeyFromStartDate(startDate: string): string {
-  return DAY_INDEX_TO_KEY[parseStartDate(startDate).getDay()];
-}
-
-/** Derive "HH:mm" from startDate */
-export function getStartTimeFromStartDate(startDate: string): string {
-  const d = parseStartDate(startDate);
-  return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+/**
+ * Filter events to those whose startDate (date part) falls in [weekStart, weekStart+7).
+ * weekStart must be Monday 00:00.
+ */
+export function filterEventsToWeek(events: CalendarEvent[], weekStart: Date): CalendarEvent[] {
+  const start = weekStart.getTime();
+  const end = start + 7 * 24 * 60 * 60 * 1000;
+  return events.filter((e) => {
+    const t = new Date(e.startDate).setHours(0, 0, 0, 0);
+    return t >= start && t < end;
+  });
 }
 
 /** Format startDate as a single date string, e.g. "martes a las 10:15" */
