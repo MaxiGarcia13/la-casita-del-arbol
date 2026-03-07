@@ -4,6 +4,7 @@ import { UserGroupIcon } from '../../assets/user-group.tsx';
 import { cn } from '../../utils/classes';
 
 import { WhatsappLinkButton } from '../whatsapp-link-button.tsx';
+import { formatEventDateTime } from './utils';
 
 export interface EventCardProps extends CalendarEvent {
   ref?: React.RefObject<HTMLDivElement | null>;
@@ -21,8 +22,7 @@ export default function EventCard({
   style,
   totalSlots,
   slotsOccupied,
-  dayKey,
-  startTime,
+  startDate,
 }: EventCardProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -54,9 +54,8 @@ export default function EventCard({
 
               <span className="text-sm">
                 {slotsOccupied}
-                {' '}
+
                 /
-                {' '}
                 {totalSlots}
               </span>
             </span>
@@ -105,7 +104,7 @@ export default function EventCard({
                 <WhatsappLinkButton
                   className="shrink-0"
                   variant="filled"
-                  message={`Hola, me gustaría inscribirme en ${title} del día ${dayKey} a las ${startTime}`}
+                  message={`Hola, me gustaría inscribirme en ${title} del ${formatEventDateTime(startDate)}`}
                 >
                   Hay lugares disponibles
                 </WhatsappLinkButton>

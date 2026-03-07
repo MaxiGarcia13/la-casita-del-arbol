@@ -12,8 +12,7 @@ export interface TimeSlot {
 
 export interface CalendarEvent {
   id: string;
-  dayKey: string;
-  startTime: string;
+  startDate: string;
   durationMinutes?: number;
   title: string;
   description?: string;
@@ -23,6 +22,7 @@ export interface CalendarEvent {
 }
 
 export interface NormalizedCalendarEvent extends CalendarEvent {
+  dayKey: string;
   startSlotIndex: number;
   spanSlots: number;
   /** Minutes from slot start to event start (0 when start is on slot boundary). */

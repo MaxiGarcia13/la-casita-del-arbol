@@ -1,4 +1,35 @@
 import type { CalendarEvent, NormalizedCalendarEvent, TimeSlot } from './types';
+import { DEFAULT_DAYS } from './constants';
+
+/** JS getDay(): 0=Sun, 1=Mon, … 6=Sat → keys: lun, mar, … dom */
+const DAY_INDEX_TO_KEY = ['dom', 'lun', 'mar', 'mie', 'jue', 'vie', 'sab'] as const;
+
+function parseStartDate(startDate: string): Date {
+  const d = new Date(startDate);
+  if (Number.isNaN(d.getTime()))
+    throw new Error(`Invalid startDate: ${startDate}`);
+  return d;
+}
+
+/** Derive weekday key from startDate (e.g. "2025-03-04T10:15:00" → "mar") */
+export function getDayKeyFromStartDate(startDate: string): string {
+  return DAY_INDEX_TO_KEY[parseStartDate(startDate).getDay()];
+}
+
+/** Derive "HH:mm" from startDate */
+export function getStartTimeFromStartDate(startDate: string): string {
+  const d = parseStartDate(startDate);
+  return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+}
+
+/** Format startDate as a single date string, e.g. "martes a las 10:15" */
+export function formatEventDateTime(startDate: string): string {
+  const dayKey = getDayKeyFromStartDate(startDate);
+  const dayName = DEFAULT_DAYS.find(d => d.key === dayKey)?.fullName?.toLowerCase() ?? dayKey;
+  const time = getStartTimeFromStartDate(startDate);
+
+  return `${dayName} a las ${time} (fecha: ${startDate})`;
+}
 
 /** Generates time slots from start to end hour, every slotDurationMinutes */
 export function buildTimeSlots(
@@ -49,7 +80,7 @@ export function getSlotDurationMinutes(timeSlots: TimeSlot[]): number {
 
 /**
  * Normalize an event to slot indices and optional minute offset.
- * Uses startTime and durationMinutes (defaults to one slot) to compute startSlotIndex, spanSlots, offsetMinutes.
+ * Derives dayKey and start time from startDate; uses durationMinutes (defaults to one slot) for spanSlots, offsetMinutes.
  */
 export function normalizeCalendarEvent(
   event: CalendarEvent,
@@ -61,7 +92,9 @@ export function normalizeCalendarEvent(
     event.durationMinutes ?? slotDurationMinutes,
   );
 
-  const startMinutes = parseTimeToMinutes(event.startTime);
+  const startTime = getStartTimeFromStartDate(event.startDate);
+  const startMinutes = parseTimeToMinutes(startTime);
+  const dayKey = getDayKeyFromStartDate(event.startDate);
   const firstSlotStartMinutes = timeSlots[0].hour * 60 + timeSlots[0].minute;
   const minutesFromGridStart = Math.max(0, startMinutes - firstSlotStartMinutes);
   const startSlotIndex = Math.min(
@@ -73,6 +106,7 @@ export function normalizeCalendarEvent(
 
   return {
     ...event,
+    dayKey,
     startSlotIndex,
     spanSlots,
     offsetMinutes: offsetMinutes % slotDurationMinutes,

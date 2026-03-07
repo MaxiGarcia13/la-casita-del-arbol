@@ -8,6 +8,7 @@ import {
   buildTimeSlots,
   EventCalendar,
   getHourAndMinute,
+  getStartTimeFromStartDate,
 } from '../components/event-calendar';
 import EventPreviewCard from '../components/event-preview-card.astro';
 import Header from '../components/header.astro';
@@ -42,8 +43,7 @@ const upcomingEvents: UpcomingEvent[] = [
 const sampleEvents: CalendarEvent[] = [
   {
     id: '1',
-    dayKey: 'mar',
-    startTime: '10:15',
+    startDate: '2025-03-04T10:15:00',
     durationMinutes: 60,
     title: 'Clase cerámica',
     description: `
@@ -58,8 +58,7 @@ const sampleEvents: CalendarEvent[] = [
   },
   {
     id: '2',
-    dayKey: 'jue',
-    startTime: '12:00',
+    startDate: '2025-03-06T12:00:00',
     durationMinutes: 120,
     title: 'Taller',
     description: '2 horas',
@@ -69,16 +68,14 @@ const sampleEvents: CalendarEvent[] = [
   },
   {
     id: '3',
-    dayKey: 'vie',
-    startTime: '14:00',
+    startDate: '2025-03-07T14:00:00',
     durationMinutes: 240,
     title: 'Curso intensivo',
     description: '3 horas',
   },
   {
     id: '4',
-    dayKey: 'mar',
-    startTime: '18:30',
+    startDate: '2025-03-04T18:30:00',
     durationMinutes: 120,
     title: 'Clase 18:30',
     description: 'Con minutos',
@@ -86,12 +83,12 @@ const sampleEvents: CalendarEvent[] = [
 ];
 
 const startHour = Math.min(
-  ...sampleEvents.map(event => getHourAndMinute(event.startTime).hour),
+  ...sampleEvents.map(event => getHourAndMinute(getStartTimeFromStartDate(event.startDate)).hour),
 );
 
 const endHour = Math.max(
   ...sampleEvents.map((event) => {
-    const { hour } = getHourAndMinute(event.startTime);
+    const { hour } = getHourAndMinute(getStartTimeFromStartDate(event.startDate));
 
     return hour + (event.durationMinutes ?? 0) / 60 + 1;
   }),
