@@ -14,12 +14,15 @@ const { class: className = '' } = Astro.props;
 ---
 
 <div class={cn('flex flex-wrap gap-2', className)}>
-  <WhatsappLinkButton client:load class:list="max-w-[135px] md:max-w-none">
+  <WhatsappLinkButton
+    client:load
+    className="max-w-[135px] flex-1 md:max-w-none"
+  >
     WhatsApp</WhatsappLinkButton
   >
   <LinkButton
     href={INSTAGRAM_URL}
-    class:list="max-w-[135px] md:max-w-none"
+    className="max-w-[135px] flex-1 md:max-w-none"
     aria-label="Instagram la casita del árbol"
     client:load
   >
@@ -28,7 +31,7 @@ const { class: className = '' } = Astro.props;
   </LinkButton>
   <LinkButton
     href={SPOTIFY_URL}
-    class:list="max-w-[135px] md:max-w-none"
+    className="max-w-[135px] flex-1 md:max-w-none"
     aria-label="Spotify la casita del árbol"
     client:load
   >
