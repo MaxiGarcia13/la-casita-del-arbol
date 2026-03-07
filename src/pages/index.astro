@@ -16,6 +16,8 @@ import { BUSINESS_NAME } from '../constans/business';
 import Layout from '../layouts/layout.astro';
 import { formatWeekParam, getWeekStart } from '../utils/date';
 
+export const prerender = false;
+
 const baseUrl = Astro.url.origin;
 const weekParam = Astro.url.searchParams.get('week');
 const weekStart = weekParam
