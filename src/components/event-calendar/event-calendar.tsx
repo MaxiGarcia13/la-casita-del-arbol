@@ -33,7 +33,6 @@ function computeTimeSlotsFromEvents(events: CalendarEvent[]) {
 }
 
 export interface EventCalendarProps {
-  events?: CalendarEvent[];
   timeSlots?: TimeSlot[];
   timelineWidth?: string;
   slotHeight?: string;
@@ -41,19 +40,15 @@ export interface EventCalendarProps {
 }
 
 export default function EventCalendar({
-  events: initialEvents,
-  timeSlots: timeSlotsProp,
   timelineWidth = '3rem',
   slotHeight = '4rem',
   className = '',
 }: EventCalendarProps) {
   const [weekStart, setWeekStart] = useState<Date>(() => parseWeekFromUrl());
-  const [events, setEvents] = useState<CalendarEvent[]>(initialEvents ?? []);
-  const [loading, setLoading] = useState(!(initialEvents?.length));
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (initialEvents?.length)
-      return;
     let cancelled = false;
     fetchEventsForWeek(weekStart)
       .then((data) => {
@@ -72,11 +67,8 @@ export default function EventCalendar({
   }, []);
 
   const timeSlots = useMemo(
-    () =>
-      timeSlotsProp?.length
-        ? timeSlotsProp
-        : computeTimeSlotsFromEvents(events),
-    [events, timeSlotsProp],
+    () => computeTimeSlotsFromEvents(events),
+    [events],
   );
 
   const thisWeekMonday = getWeekStart(new Date());
