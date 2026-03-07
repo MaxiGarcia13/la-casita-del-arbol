@@ -1,13 +1,6 @@
 ---
-import InstagramIcon from '../assets/instagram.svg';
-import MusicIcon from '../assets/music.svg';
-import {
-  BUSINESS_NAME,
-  INSTAGRAM_URL,
-  SPOTIFY_URL,
-} from '../constans/business';
-import { LinkButton } from './link-button.tsx';
-import { WhatsappLinkButton } from './whatsapp-link-button.tsx';
+import { BUSINESS_NAME } from '../constans/business';
+import SocialMedia from './social-media.astro';
 ---
 
 <footer
@@ -24,37 +17,6 @@ import { WhatsappLinkButton } from './whatsapp-link-button.tsx';
       </p>
     </div>
 
-    <nav
-      class="flex flex-wrap items-center justify-center gap-3"
-      aria-label="Redes sociales"
-    >
-      <WhatsappLinkButton
-        client:idle
-        ariaLabel="WhatsApp - La Casita del Árbol"
-      >
-        WhatsApp
-      </WhatsappLinkButton>
-      <LinkButton
-        href={INSTAGRAM_URL}
-        ariaLabel="Instagram - La Casita del Árbol"
-        client:idle
-        className="inline-flex items-center gap-2"
-      >
-        <InstagramIcon
-          class="size-5 shrink-0 text-current"
-          aria-hidden="true"
-        />
-        <span>Instagram</span>
-      </LinkButton>
-      <LinkButton
-        href={SPOTIFY_URL}
-        ariaLabel="Spotify - La Casita del Árbol"
-        client:idle
-        className="inline-flex items-center gap-2"
-      >
-        <MusicIcon class="size-5 shrink-0 text-current" aria-hidden="true" />
-        <span>Spotify</span>
-      </LinkButton>
-    </nav>
+    <SocialMedia />
   </div>
 </footer>

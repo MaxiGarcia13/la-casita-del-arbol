@@ -1,0 +1,38 @@
+---
+import InstagramIcon from '../assets/instagram.svg';
+import MusicIcon from '../assets/music.svg';
+import { INSTAGRAM_URL, SPOTIFY_URL } from '../constans/business';
+import { cn } from '../utils/classes';
+import { LinkButton } from './link-button';
+import { WhatsappLinkButton } from './whatsapp-link-button';
+
+export interface SocialMediaProps {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class={cn('flex flex-wrap gap-2', className)}>
+  <WhatsappLinkButton client:load class:list="max-w-[135px] md:max-w-none">
+    WhatsApp</WhatsappLinkButton
+  >
+  <LinkButton
+    href={INSTAGRAM_URL}
+    class:list="max-w-[135px] md:max-w-none"
+    aria-label="Instagram la casita del árbol"
+    client:load
+  >
+    <InstagramIcon class="size-5 shrink-0 text-current" />
+    Instagram
+  </LinkButton>
+  <LinkButton
+    href={SPOTIFY_URL}
+    class:list="max-w-[135px] md:max-w-none"
+    aria-label="Spotify la casita del árbol"
+    client:load
+  >
+    <MusicIcon class="size-5 shrink-0 text-current" />
+    Spotify
+  </LinkButton>
+</div>
