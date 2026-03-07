@@ -87,7 +87,7 @@ export default function UpcomingEventsList() {
     return (
       <p className="text-charcoal/80 text-sm" role="alert">
         No se pudieron cargar los eventos.
-        {' '}
+        <br />
         {error}
       </p>
     );
