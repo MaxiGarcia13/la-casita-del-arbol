@@ -16,13 +16,13 @@ const { class: className = '' } = Astro.props;
 <div class={cn('flex gap-2', className)}>
   <WhatsappLinkButton
     client:load
-    className="max-w-[130px] flex-1 md:max-w-none"
+    className="max-w-[120px] flex-1 md:max-w-none"
   >
     <span class="truncate">WhatsApp</span>
   </WhatsappLinkButton>
   <LinkButton
     href={INSTAGRAM_URL}
-    className="max-w-[130px] flex-1 md:max-w-none"
+    className="max-w-[120px] flex-1 md:max-w-none"
     aria-label="Instagram la casita del árbol"
     client:load
   >
@@ -31,7 +31,7 @@ const { class: className = '' } = Astro.props;
   </LinkButton>
   <LinkButton
     href={SPOTIFY_URL}
-    className="max-w-[130px] flex-1 md:max-w-none"
+    className="max-w-[120px] flex-1 md:max-w-none"
     aria-label="Spotify la casita del árbol"
     client:load
   >
