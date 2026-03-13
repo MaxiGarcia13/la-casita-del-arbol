@@ -10,4 +10,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   adapter: vercel(),
+  server: {
+    port: 4322,
+  },
 });
