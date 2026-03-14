@@ -24,9 +24,9 @@
     "phoenix": "npm run clean && rm -rf node_modules && rm -rf package-lock.json && npm install"
   },
   "dependencies": {
-    "@astrojs/react": "^4.4.2",
-    "@astrojs/vercel": "^9.0.4",
-    "astro": "^5.18.0",
+    "@astrojs/react": "^5.0.0",
+    "@astrojs/vercel": "^10.0.0",
+    "astro": "^6.0.4",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
@@ -39,7 +39,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "eslint-plugin-tailwindcss": "^4.0.0-beta.0",
-    "lint-staged": "^16.3.1",
+    "lint-staged": "^16.3.3",
     "simple-git-hooks": "^2.13.1",
     "tailwindcss": "^4.2.1"
   },
