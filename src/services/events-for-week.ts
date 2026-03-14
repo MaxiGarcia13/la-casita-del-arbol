@@ -1,7 +1,7 @@
 import type { CalendarEvent } from '../components/event-calendar/types';
 import { formatWeekParam, getWeekStart } from '../utils/date';
 
-const SAMPLE_EVENTS_API = '/api/sample-events.json';
+const SAMPLE_EVENTS_API = '/api/events';
 
 export async function fetchEventsForWeek(week: Date): Promise<CalendarEvent[]> {
   const res = await fetch(

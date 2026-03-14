@@ -4,17 +4,4 @@ export { default as EventCalendar } from './event-calendar';
 export { default as EventCalendarView } from './event-calendar-view';
 export type { EventCalendarViewProps } from './event-calendar-view';
 export type * from './types';
-export {
-  buildTimeSlots,
-  buildWeekDays,
-  filterEventsToWeek,
-  formatEventDateTime,
-  getDayKeyFromDate,
-  getDayKeyFromStartDate,
-  getHourAndMinute,
-  getSlotDurationMinutes,
-  getStartTimeFromStartDate,
-  getWeekStart,
-  normalizeCalendarEvent,
-  parseTimeToMinutes,
-} from './utils';
+export * from './utils';

@@ -33,7 +33,7 @@ export default function EventCard({
         id={id}
         className={
           cn(
-            'flex justify-between items-center flex-wrap h-full overflow-y-auto overflow-x-hidden p-2 cursor-pointer text-charcoal',
+            'min-w-0 flex justify-between items-center flex-wrap h-full overflow-y-auto overflow-x-hidden p-2 cursor-pointer text-charcoal',
             className,
             type !== 'lesson' ? 'bg-secondary' : 'bg-primary',
           )

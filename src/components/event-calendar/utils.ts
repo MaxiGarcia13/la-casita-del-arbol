@@ -29,19 +29,6 @@ export function buildWeekDays(weekStart: Date): CalendarDay[] {
   return days;
 }
 
-/**
- * Filter events to those whose startDate (date part) falls in [weekStart, weekStart+7).
- * weekStart must be Monday 00:00.
- */
-export function filterEventsToWeek(events: CalendarEvent[], weekStart: Date): CalendarEvent[] {
-  const start = weekStart.getTime();
-  const end = start + 7 * 24 * 60 * 60 * 1000;
-  return events.filter((e) => {
-    const t = new Date(e.startDate).setHours(0, 0, 0, 0);
-    return t >= start && t < end;
-  });
-}
-
 /** Format startDate as a single date string, e.g. "martes a las 10:15" */
 export function formatEventDateTime(startDate: string): string {
   const dayKey = getDayKeyFromStartDate(startDate);

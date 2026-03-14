@@ -51,23 +51,18 @@ export default function EventCalendar({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let cancelled = false;
     fetchEventsForWeek(weekStart)
       .then((data) => {
-        if (!cancelled)
+        if (data)
           setEvents(data);
       })
       .catch((err) => {
-        if (!cancelled)
-          setError(err instanceof Error ? err.message : 'Error');
+        setError(err instanceof Error ? err.message : 'Error');
       })
       .finally(() => {
-        if (!cancelled)
-          setLoading(false);
+        setLoading(false);
       });
-    return () => {
-      cancelled = true;
-    };
+
     // Intentionally run only on mount; week navigation uses goToWeek()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -74,7 +74,7 @@ export default function CalendarCell({
 
   return (
     <div
-      className={`event-calendar-cell min-h-(--calendar-slot-height,4rem) p-1 border-b border-r border-black/15 ${useAbsolute ? 'relative' : ''} ${className}`.trim()}
+      className={`event-calendar-cell min-h-(--calendar-slot-height,4rem) min-w-0 border-b border-r border-black/15 ${useAbsolute ? 'relative' : ''} ${className}`.trim()}
       data-day={dayKey}
       data-slot={slotIndex}
       role="gridcell"

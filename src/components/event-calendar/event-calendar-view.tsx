@@ -4,7 +4,6 @@ import CalendarCell from './calendar-cell';
 import {
   buildTimeSlots,
   buildWeekDays,
-  filterEventsToWeek,
   getHourAndMinute,
   getSlotDurationMinutes,
   getStartTimeFromStartDate,
@@ -38,7 +37,6 @@ function computeTimeSlotsFromEvents(events: CalendarEvent[]): TimeSlot[] {
 export interface EventCalendarViewProps {
   events: CalendarEvent[];
   weekStart: Date;
-  /** Optional: computed from events when not provided */
   timeSlots?: TimeSlot[];
   timelineWidth?: string;
   slotHeight?: string;
@@ -78,17 +76,14 @@ export default function EventCalendarView({
   );
 
   const days = useMemo(() => buildWeekDays(weekStart), [weekStart]);
-  const filteredEvents = useMemo(
-    () => filterEventsToWeek(events, weekStart),
-    [events, weekStart],
-  );
+
   const slotDurationMinutes = useMemo(
     () => getSlotDurationMinutes(timeSlots),
     [timeSlots],
   );
   const normalizedEvents = useMemo(
-    () => filteredEvents.map(e => normalizeCalendarEvent(e, timeSlots)),
-    [filteredEvents, timeSlots],
+    () => events.map(e => normalizeCalendarEvent(e, timeSlots)),
+    [events, timeSlots],
   );
   const byCell = useMemo(
     () => eventsByCell(normalizedEvents),
