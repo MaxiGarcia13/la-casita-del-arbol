@@ -1,6 +1,9 @@
 import type { CalendarEvent } from './types';
+import { InstagramIcon } from '../../assets/instagram.tsx';
+import { TeacherIcon } from '../../assets/teacher.tsx';
 import { UserGroupIcon } from '../../assets/user-group.tsx';
 import { cn } from '../../utils/classes';
+import { formatPrice } from '../../utils/numbers';
 import { WhatsappLinkButton } from '../whatsapp-link-button.tsx';
 import { formatEventDateTime } from './utils';
 
@@ -16,14 +19,20 @@ export default function EventModal({
   description,
   className = '',
   availableSpots,
-  customerIds,
   startDate,
+  customerIds,
+  teamMembers,
+  price,
+  instagram,
 }: EventCardProps) {
+  const hasTeachers = (teamMembers?.length ?? teamMembers?.length ?? 0) > 0;
+  const teacherNames = teamMembers?.map(t => [t.name, t.surname].filter(Boolean).join(' ').trim() || t.id) ?? [];
+
   return (
     <dialog
       ref={ref}
       className={cn(
-        'bg-surface text-charcoal m-auto  h-full max-h-[400px] w-full max-w-[400px] rounded p-4 outline-none',
+        'bg-surface text-charcoal m-auto max-h-[85vh] w-full max-w-[400px] rounded p-4 outline-none',
         className,
       )}
       onClick={(event) => {
@@ -32,8 +41,8 @@ export default function EventModal({
         }
       }}
     >
-      <div className="flex h-full flex-col gap-4">
-        <header className="flex flex-wrap items-center justify-between">
+      <div className="flex h-full max-h-[inherit] flex-col gap-4">
+        <header className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-2xl font-semibold wrap-break-word">{title}</h3>
           {
             typeof availableSpots === 'number' && (
@@ -50,9 +59,59 @@ export default function EventModal({
           }
         </header>
 
-        <p className="flex-1 overflow-y-auto text-sm wrap-break-word">{description}</p>
+        {description && (
+          <section>
+            <h4 className="mb-1 text-xs font-medium uppercase tracking-wide text-charcoal/70">Descripción</h4>
+            <p className="flex-1 overflow-y-auto text-sm wrap-break-word">{description}</p>
+          </section>
+        )}
 
-        <footer className="flex gap-4">
+        {(hasTeachers || typeof price === 'number' || instagram) && (
+          <div className="flex flex-col gap-3 text-sm">
+            {hasTeachers && (
+              <div className="flex flex-col gap-1">
+                <span className="flex items-center gap-2 font-medium">
+                  <TeacherIcon className="size-4 shrink-0" />
+                  {teacherNames.length === 1 ? 'Docente' : 'Docentes'}
+                </span>
+                <ul className="list-inside list-disc pl-1 text-charcoal/90">
+                  {teacherNames.length > 0
+                    ? teacherNames.map((name, i) => (
+                        <li key={teamMembers?.[i]?.id ?? i}>{name}</li>
+                      ))
+                    : (
+                        <li>
+                          {teamMembers?.length}
+                          {' '}
+                          miembro(s) del equipo
+                        </li>
+                      )}
+                </ul>
+              </div>
+            )}
+            {typeof price === 'number' && (
+              <span>
+                Precio por persona:
+                {' '}
+                <strong>{formatPrice(price)}</strong>
+              </span>
+            )}
+            {instagram?.trim() && (
+              <a
+                href={instagram.trim()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-secondary hover:underline"
+                aria-label="Instagram"
+              >
+                <InstagramIcon className="size-4 shrink-0" />
+                <span>Instagram</span>
+              </a>
+            )}
+          </div>
+        )}
+
+        <footer className="mt-auto flex gap-4">
           <button
             className="border border-border w-full cursor-pointer rounded p-2"
             onClick={() => ref?.current?.close?.()}

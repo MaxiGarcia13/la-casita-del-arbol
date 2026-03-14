@@ -21,6 +21,7 @@ export const GET: APIRoute = async ({ request: req }) => {
         instanceID: BOOKLY_INSTANCE_ID,
         startDate: weekStart.toISOString(),
         endDate: endDate.toISOString(),
+        teamMembersInfo: true,
       },
     });
 

@@ -8,13 +8,19 @@ export interface Event {
   availableSpots: number;
   price: number;
   customerIds: Array<string>;
-  teamMemberIds?: Array<string>;
+  teamMembers?: Array<{
+    id: string;
+    name: string;
+    surname: string;
+  }>;
   type: EventType;
   infinite?: boolean;
   createdAt?: string;
   updatedAt?: string;
   durationMinutes: number;
   instagram?: string;
+  currency?: EventConcurrency;
 }
 
 type EventType = 'event' | 'lesson';
+type EventConcurrency = 'EUR' | 'ARS' | 'USD';

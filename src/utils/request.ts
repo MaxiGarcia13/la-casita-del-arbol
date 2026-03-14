@@ -4,12 +4,12 @@
  */
 export function buildUrlWithParams(
   basePath: string,
-  params: Record<string, string | number | undefined | null>,
+  params: Record<string, string | number | undefined | null | boolean>,
 ): string {
   const searchParams = new URLSearchParams();
 
   for (const [key, value] of Object.entries(params)) {
-    if (value !== undefined && value !== null && value !== '') {
+    if (value) {
       searchParams.set(key, String(value));
     }
   }
@@ -27,7 +27,7 @@ export function json(data: unknown, status: number) {
 
 export interface RequestConfig extends Omit<RequestInit, 'body'> {
   /** Query string params (appended to URL). Undefined, null and empty string values are omitted. */
-  params?: Record<string, string | number | undefined | null>;
+  params?: Record<string, string | number | undefined | null | boolean>;
   /** Request body. Objects are JSON-stringified. */
   body?: unknown;
 }

@@ -17,6 +17,7 @@ export const GET: APIRoute = async () => {
         startDate: weekStart.toISOString(),
         type: 'event',
         pageSize: 10,
+        teamMembersInfo: true,
       },
     });
 
