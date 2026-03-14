@@ -10,6 +10,8 @@ export const GET: APIRoute = async ({ request: req }) => {
   const weekStart = weekParam
     ? getWeekStart(new Date(weekParam))
     : getWeekStart(new Date());
+  const endDate = new Date(weekStart);
+  endDate.setDate(endDate.getDate() + 7);
 
   try {
     const response = await request<{ results: CalendarEvent[] }>(`${BOOKLY_API_URL_V1}/events`, {
@@ -19,6 +21,7 @@ export const GET: APIRoute = async ({ request: req }) => {
       params: {
         instanceID: BOOKLY_INSTANCE_ID,
         startDate: weekStart.toISOString(),
+        endDate: endDate.toISOString(),
       },
     });
 
