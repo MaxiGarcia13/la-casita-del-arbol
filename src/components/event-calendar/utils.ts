@@ -35,7 +35,9 @@ export function formatEventDateTime(startDate: string): string {
   const dayName = DEFAULT_DAYS.find(d => d.key === dayKey)?.fullName?.toLowerCase() ?? dayKey;
   const time = getStartTimeFromStartDate(startDate);
 
-  return `${dayName} a las ${time} (fecha: ${startDate})`;
+  const date = new Date(startDate);
+
+  return `${dayName} ${date.toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })} a las ${time}`;
 }
 
 /** Generates time slots from start to end hour, every slotDurationMinutes */

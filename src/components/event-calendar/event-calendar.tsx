@@ -104,7 +104,7 @@ export default function EventCalendar({
   );
 
   if (loading) {
-    return <EventCalendarLoader className={className} rows={4} />;
+    return <EventCalendarLoader className={className} rows={6} />;
   }
 
   if (error) {

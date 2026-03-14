@@ -1,5 +1,6 @@
 import type { CalendarCellEvent } from './types.ts';
 import { useEffect, useRef } from 'react';
+import { cn } from '../../utils/classes.ts';
 import EventCard from './event-card.tsx';
 
 export interface CalendarCellProps {
@@ -74,7 +75,11 @@ export default function CalendarCell({
 
   return (
     <div
-      className={`event-calendar-cell min-h-(--calendar-slot-height,4rem) min-w-0 border-b border-r border-black/15 ${useAbsolute ? 'relative' : ''} ${className}`.trim()}
+      className={cn(
+        'event-calendar-cell min-h-(--calendar-slot-height,4rem) min-w-0 border-b border-r border-border',
+        useAbsolute ? 'relative' : '',
+        className,
+      )}
       data-day={dayKey}
       data-slot={slotIndex}
       role="gridcell"

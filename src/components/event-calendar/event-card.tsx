@@ -20,8 +20,8 @@ export default function EventCard({
   className = '',
   type,
   style,
-  totalSlots,
-  slotsOccupied,
+  availableSpots,
+  customerIds,
   startDate,
 }: EventCardProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -33,9 +33,12 @@ export default function EventCard({
         id={id}
         className={
           cn(
-            'min-w-0 flex justify-between items-center flex-wrap h-full overflow-y-auto overflow-x-hidden p-2 cursor-pointer text-charcoal',
+            'flex justify-between  items-center flex-wrap h-full overflow-y-auto overflow-x-hidden p-2 cursor-pointer text-neutral-300',
             className,
-            type !== 'lesson' ? 'bg-secondary' : 'bg-primary',
+            'text-neutral-900 border-l-3',
+            type !== 'lesson'
+              ? 'bg-secondary/20 border-secondary'
+              : 'bg-primary/20 border-primary',
           )
         }
         data-event-id={id}
@@ -48,15 +51,14 @@ export default function EventCard({
       >
         <h3 className="hidden text-sm font-semibold wrap-break-word md:block">{title}</h3>
         {
-          typeof totalSlots === 'number' && (
+          typeof availableSpots === 'number' && (
             <span className="hidden items-center gap-2 md:flex">
-              <UserGroupIcon className="size-2" />
+              <UserGroupIcon className="size-4" />
 
               <span className="text-sm">
-                {slotsOccupied}
-
+                {customerIds.length}
                 /
-                {totalSlots}
+                {availableSpots}
               </span>
             </span>
           )
@@ -76,14 +78,14 @@ export default function EventCard({
           <header className="flex flex-wrap items-center justify-between">
             <h3 className="text-2xl font-semibold wrap-break-word">{title}</h3>
             {
-              typeof totalSlots === 'number' && (
+              typeof availableSpots === 'number' && (
                 <span className="flex items-center gap-2">
-                  <UserGroupIcon className="size-2" />
+                  <UserGroupIcon className="size-4" />
 
                   <span className="text-sm">
-                    {(slotsOccupied ?? 0)}
+                    {(customerIds.length)}
                     /
-                    {totalSlots}
+                    {availableSpots}
                   </span>
                 </span>
               )
@@ -94,17 +96,17 @@ export default function EventCard({
 
           <footer className="flex gap-4">
             <button
-              className="border-charcoal w-full cursor-pointer rounded border-2 p-2"
+              className="border border-border w-full cursor-pointer rounded p-2"
               onClick={() => dialogRef.current?.close()}
             >
               Cerrar
             </button>
             {
-              typeof totalSlots === 'number' && (slotsOccupied ?? 0) < totalSlots && (
+              typeof availableSpots === 'number' && customerIds.length < availableSpots && (
                 <WhatsappLinkButton
                   className="shrink-0"
                   variant="filled"
-                  message={`Hola, me gustaría inscribirme en ${title} del ${formatEventDateTime(startDate)}`}
+                  message={`Hola, me gustaría inscribirme en ${title} del ${formatEventDateTime(startDate ?? '')}`}
                 >
                   Hay lugares disponibles
                 </WhatsappLinkButton>

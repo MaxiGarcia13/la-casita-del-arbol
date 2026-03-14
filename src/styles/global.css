@@ -32,11 +32,14 @@
 }
 
 @theme {
-  --color-primary: #FDFF55; 
-  --color-secondary: #C57E5F; 
+  --color-primary: #FDFF55;
+  --color-secondary: #C57E5F;
   --color-surface: #F7F3E1;
-  --color-accent: #707A5E; 
+  --color-accent: #707A5E;
   --color-charcoal: #2B2B2B;
+  /* Single border token: 1px, same color everywhere */
+  --color-border: rgb(43 43 43 / 0.2);
+  --border-width: 1px;
 }
 
 /* Base typography: Nunito for body, Source Serif 4 for headings */

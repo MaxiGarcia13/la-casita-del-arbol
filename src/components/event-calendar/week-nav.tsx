@@ -23,7 +23,7 @@ export default function WeekNav({
 }: WeekNavProps) {
   return (
     <nav
-      className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-charcoal bg-surface px-3 py-2"
+      className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-surface px-3 py-2"
       aria-label="Navegación por semana"
     >
       <span className="text-sm font-semibold">

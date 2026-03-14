@@ -1,21 +1,24 @@
-import type { UpcomingEvent } from '../event-calendar/types';
+import type { Event } from '../../services/type';
+import { formatEventDateTime } from '../event-calendar';
 import { WhatsappLinkButton } from '../whatsapp-link-button';
 
-export function UpcomingEventCard({ event }: { event: UpcomingEvent }) {
+export function UpcomingEventCard({ event }: { event: Event }) {
   const {
     title,
     description = '',
-    dateLabel,
-    ctaLabel = 'Consultar',
-    ctaMessage,
+    startDate,
   } = event;
-  const message
-    = ctaMessage ?? `Hola, me gustaría más información sobre: ${title}`;
+  const ctaLabel = 'Consultar';
+  const message = `Hola, me gustaría más información sobre: ${title}`;
+  const dateLabel = formatEventDateTime(startDate ?? '');
 
   return (
-    <article className="rounded border border-charcoal/20 bg-surface p-4 text-charcoal transition-shadow hover:shadow-md">
+    <article className="pb-4">
       <header>
-        <h3 className="text-lg font-semibold wrap-break-word">{title}</h3>
+
+        <h3 className="text-lg font-semibold wrap-break-word">
+          {title}
+        </h3>
         <p className="mt-1 text-sm text-charcoal/80">{dateLabel}</p>
       </header>
       {description.trim()

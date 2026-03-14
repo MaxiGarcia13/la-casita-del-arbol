@@ -25,14 +25,14 @@ export function LinkButton(props: LinkButtonProps) {
   } = props;
 
   const classNames = cn(
-    'inline-flex items-center justify-center gap-2 text-sm font-medium rounded border-2 px-3 py-1.5',
+    'inline-flex items-center justify-center gap-2 text-sm font-medium rounded border border-border px-3 py-1.5',
     className,
   );
 
   if (disabled) {
     return (
       <span
-        className={cn(classNames, 'border-charcoal/40 bg-charcoal/5 text-charcoal/50 cursor-not-allowed')}
+        className={cn(classNames, 'bg-charcoal/5 text-charcoal/50 cursor-not-allowed')}
         aria-disabled
       >
         {children}

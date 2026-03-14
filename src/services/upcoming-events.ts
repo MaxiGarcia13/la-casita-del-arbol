@@ -1,10 +1,10 @@
-import type { UpcomingEvent } from '../components/event-calendar/types';
+import type { Event } from './type';
+import { request } from '../utils/request';
 
-const UPCOMING_EVENTS_API = '/api/upcoming-events.json';
+const UPCOMING_EVENTS_API = '/api/upcoming-events';
 
-export async function fetchUpcomingEvents(): Promise<UpcomingEvent[]> {
-  const res = await fetch(UPCOMING_EVENTS_API);
-  if (!res.ok)
-    throw new Error('Failed to fetch upcoming events');
-  return res.json();
+export async function fetchUpcomingEvents(): Promise<Event[]> {
+  const response = await request<Event[]>(UPCOMING_EVENTS_API);
+
+  return response;
 }

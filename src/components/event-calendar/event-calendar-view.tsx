@@ -103,7 +103,7 @@ export default function EventCalendarView({
 
   return (
     <div
-      className={`flex flex-col w-full max-w-full overflow-auto rounded border-2 border-charcoal relative bg-surface ${className}`.trim()}
+      className={`flex flex-col w-full max-w-full overflow-auto rounded border border-border relative bg-surface ${className}`.trim()}
       style={{
         ['--calendar-days-count' as string]: days.length,
         ['--calendar-slot-height' as string]: slotHeight,
@@ -122,9 +122,9 @@ export default function EventCalendarView({
         onNextClick={onNextClick}
       />
 
-      <header className="flex border-b-2 border-charcoal" role="row">
+      <header className="flex border-b border-border" role="row">
         <div
-          className="border-charcoal shrink-0 border-r-2"
+          className="border-border shrink-0 border-r"
           aria-hidden
           style={{ width: timelineWidth }}
         />
@@ -140,7 +140,7 @@ export default function EventCalendarView({
             return (
               <div
                 key={day.key}
-                className={`border-charcoal flex flex-col items-center justify-center gap-0.5 border-r-2 px-1 py-2 last:border-r-0 ${isToday ? 'bg-charcoal/10' : ''}`}
+                className={`border-border flex flex-col items-center justify-center gap-0.5 border-r px-1 py-2 last:border-r-0 ${isToday ? 'bg-charcoal/10' : ''}`}
                 role="columnheader"
                 title={
                   day.fullName
@@ -162,7 +162,7 @@ export default function EventCalendarView({
 
       <div className="flex min-h-0 flex-1">
         <aside
-          className="shrink border-r-2 border-charcoal"
+          className="shrink border-r border-border"
           aria-label="Horarios"
           role="complementary"
           style={{ width: timelineWidth }}
@@ -171,7 +171,7 @@ export default function EventCalendarView({
             {timeSlots.map(slot => (
               <div
                 key={slot.label}
-                className="text-charcoal flex min-h-(--calendar-slot-height,2rem) items-start justify-end border-b border-black/15 py-1 pt-1 pr-2 text-xs"
+                className="text-charcoal flex min-h-(--calendar-slot-height,2rem) items-start justify-end border-b border-border py-1 pt-1 pr-2 text-xs"
               >
                 <span className="whitespace-nowrap">{slot.label}</span>
               </div>

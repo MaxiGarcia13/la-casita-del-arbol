@@ -1,16 +1,11 @@
 import type { APIRoute } from 'astro';
 import type { CalendarEvent } from '../../components/event-calendar';
 import { BOOKLY_API_URL_V1, BOOKLY_INSTANCE_ID, VERCEL_AUTOMATION_BYPASS } from 'astro:env/server';
-import { addWeeks, getWeekStart } from '../../utils/date';
+import { addWeeks } from '../../utils/date';
 import { json, request } from '../../utils/request';
 
-export const GET: APIRoute = async ({ request: req }) => {
-  const url = new URL(req.url);
-  const weekParam = url.searchParams.get('week');
-  const weekStart = weekParam
-    ? getWeekStart(new Date(weekParam))
-    : getWeekStart(new Date());
-  const endDate = addWeeks(weekStart, 1);
+export const GET: APIRoute = async () => {
+  const weekStart = addWeeks(new Date(), 1);
 
   try {
     const response = await request<{ results: CalendarEvent[] }>(`${BOOKLY_API_URL_V1}/events`, {
@@ -20,7 +15,8 @@ export const GET: APIRoute = async ({ request: req }) => {
       params: {
         instanceID: BOOKLY_INSTANCE_ID,
         startDate: weekStart.toISOString(),
-        endDate: endDate.toISOString(),
+        type: 'event',
+        pageSize: 10,
       },
     });
 

@@ -1,3 +1,5 @@
+import type { Event } from '../../services/type';
+
 export interface CalendarDay {
   key: string;
   label: string;
@@ -14,16 +16,7 @@ export interface TimeSlot {
   minute: number;
 }
 
-export interface CalendarEvent {
-  id: string;
-  startDate: string;
-  durationMinutes?: number;
-  title: string;
-  description?: string;
-  type?: 'lesson' | 'event' | 'other';
-  totalSlots?: number;
-  slotsOccupied?: number;
-}
+export interface CalendarEvent extends Event {}
 
 export interface NormalizedCalendarEvent extends CalendarEvent {
   dayKey: string;
@@ -46,18 +39,10 @@ export interface EventCalendarProps {
 export interface CalendarCellEvent extends CalendarEvent {
   spanSlots?: number;
   offsetMinutes?: number;
-  durationMinutes?: number;
 }
 
-/** Event announced for the future (eventos section). Not tied to the calendar grid. */
-export interface UpcomingEvent {
-  id?: string;
-  title: string;
-  description?: string;
-  /** Display date, e.g. "Próximamente", "Marzo 2025", "Sábado 15 de abril" */
+export interface UpcomingEvent extends Event {
   dateLabel: string;
-  /** Call-to-action label, e.g. "Consultar" or "Inscribirme" */
   ctaLabel?: string;
-  /** Prefilled WhatsApp message; defaults to asking about the event title */
   ctaMessage?: string;
 }
