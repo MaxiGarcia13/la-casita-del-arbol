@@ -14,6 +14,7 @@ export interface Event {
   createdAt?: string;
   updatedAt?: string;
   durationMinutes: number;
+  instagram?: string;
 }
 
 type EventType = 'event' | 'lesson';
