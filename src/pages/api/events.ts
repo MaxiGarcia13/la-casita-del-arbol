@@ -1,61 +1,35 @@
 import type { APIRoute } from 'astro';
+import type { CalendarEvent } from '../../components/event-calendar';
 import { BOOKLY_API_URL_V1, BOOKLY_INSTANCE_ID, VERCEL_AUTOMATION_BYPASS } from 'astro:env/server';
 import { getWeekStart } from '../../utils/date';
+import { json, request } from '../../utils/request';
 
-export const GET: APIRoute = async ({ request }) => {
-  const url = new URL(request.url);
+export const GET: APIRoute = async ({ request: req }) => {
+  const url = new URL(req.url);
   const weekParam = url.searchParams.get('week');
   const weekStart = weekParam
     ? getWeekStart(new Date(weekParam))
     : getWeekStart(new Date());
 
-  const params = new URLSearchParams({
-    instanceID: BOOKLY_INSTANCE_ID,
-    startDate: weekStart.toISOString(),
-  });
-
   try {
-    const response = await fetch(`${BOOKLY_API_URL_V1}/events?${params.toString()}`, {
+    const response = await request<{ results: CalendarEvent[] }>(`${BOOKLY_API_URL_V1}/events`, {
       headers: {
         'x-vercel-protection-bypass': VERCEL_AUTOMATION_BYPASS,
-        'Content-Type': 'application/json',
+      },
+      params: {
+        instanceID: BOOKLY_INSTANCE_ID,
+        startDate: weekStart.toISOString(),
       },
     });
 
-    if (!response.ok) {
-      return new Response(
-        JSON.stringify({
-          error: 'Failed to fetch events',
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    }
-
-    const data = await response.json();
-
-    return new Response(JSON.stringify(data.results), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return json(response.results, 200);
   }
   catch (error) {
-    return new Response(
-      JSON.stringify({
-        error: error instanceof Error ? error.message : 'Failed to fetch events',
-      }),
+    return json(
       {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        error: error instanceof Error ? error.message : 'Failed to fetch events',
       },
+      500,
     );
   }
 };
