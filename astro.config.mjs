@@ -23,6 +23,10 @@ export default defineConfig({
         context: 'server',
         access: 'secret',
       }),
+      VERCEL_AUTOMATION_BYPASS: envField.string({
+        context: 'server',
+        access: 'secret',
+      }),
       WHATSAPP_NUMBER: envField.string({
         context: 'client',
         access: 'public',

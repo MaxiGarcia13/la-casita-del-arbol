@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { BOOKLY_API_URL_V1, BOOKLY_INSTANCE_ID } from 'astro:env/server';
+import { BOOKLY_API_URL_V1, BOOKLY_INSTANCE_ID, VERCEL_AUTOMATION_BYPASS } from 'astro:env/server';
 import { getWeekStart } from '../../utils/date';
 
 export const GET: APIRoute = async ({ request }) => {
@@ -17,6 +17,7 @@ export const GET: APIRoute = async ({ request }) => {
   try {
     const response = await fetch(`${BOOKLY_API_URL_V1}/events?${params.toString()}`, {
       headers: {
+        'x-vercel-protection-bypass': VERCEL_AUTOMATION_BYPASS,
         'Content-Type': 'application/json',
       },
     });
