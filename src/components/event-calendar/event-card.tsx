@@ -1,8 +1,9 @@
+import type { ModalHandle } from '../modal/modal';
 import type { CalendarEvent } from './types';
 import { useRef } from 'react';
-import { UserGroupIcon } from '../../assets/user-group.tsx';
+import { UserGroupIcon } from '../../assets/user-group';
 import { cn } from '../../utils/classes';
-import EventModal from './event-modal.tsx';
+import EventModal from './event-modal';
 
 export interface EventCardProps extends CalendarEvent {
   ref?: React.RefObject<HTMLDivElement | null>;
@@ -22,7 +23,7 @@ export default function EventCard({
   startDate,
   ...props
 }: EventCardProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const modalRef = useRef<ModalHandle>(null);
 
   return (
     <>
@@ -41,11 +42,7 @@ export default function EventCard({
         }
         data-event-id={id}
         style={style}
-        onClick={() => {
-          if (dialogRef.current) {
-            dialogRef.current.showModal();
-          }
-        }}
+        onClick={() => modalRef.current?.open()}
       >
         <h3 className="hidden text-sm font-semibold wrap-break-word md:block">{title}</h3>
         {
@@ -64,8 +61,8 @@ export default function EventCard({
       </div>
 
       <EventModal
+        ref={modalRef}
         id={id}
-        ref={dialogRef}
         title={title}
         availableSpots={availableSpots}
         customerIds={customerIds}

@@ -1,15 +1,16 @@
+import type { ModalHandle } from '../modal/modal';
 import type { CalendarEvent } from './types';
-import { InstagramIcon } from '../../assets/instagram.tsx';
-import { TeacherIcon } from '../../assets/teacher.tsx';
-import { UserGroupIcon } from '../../assets/user-group.tsx';
-import { cn } from '../../utils/classes';
+import { InstagramIcon } from '../../assets/instagram';
+import { TeacherIcon } from '../../assets/teacher';
+import { UserGroupIcon } from '../../assets/user-group';
 import { formatDuration } from '../../utils/date';
 import { formatPrice } from '../../utils/numbers';
-import { WhatsappLinkButton } from '../whatsapp-link-button.tsx';
+import { Modal, ModalContent, ModalFooter, ModalHeader } from '../modal';
+import { WhatsappLinkButton } from '../whatsapp-link-button';
 import { formatEventDateTime } from './utils';
 
-export interface EventCardProps extends CalendarEvent {
-  ref?: React.RefObject<HTMLDialogElement | null>;
+export interface EventModalProps extends CalendarEvent {
+  ref?: React.RefObject<ModalHandle | null>;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -26,48 +27,39 @@ export default function EventModal({
   price,
   instagram,
   durationMinutes,
-}: EventCardProps) {
-  const hasTeachers = (teamMembers?.length ?? teamMembers?.length ?? 0) > 0;
+}: EventModalProps) {
+  const hasTeachers = (teamMembers?.length ?? 0) > 0;
   const teacherNames = teamMembers?.map(t => [t.name, t.surname].filter(Boolean).join(' ').trim() || t.id) ?? [];
 
   return (
-    <dialog
+    <Modal
       ref={ref}
-      className={cn(
-        'bg-surface text-charcoal m-auto w-full max-w-[400px] rounded p-4 outline-none',
-        // 85vh fallback; 85svh on iOS so height fits visible viewport (avoids address bar)
-        'max-h-[85vh] max-h-[85svh]',
-        'pb-[max(1rem,env(safe-area-inset-bottom))]',
-        className,
-      )}
-      onClick={(event) => {
-        if (event.target === event.currentTarget) {
-          ref?.current?.close?.();
-        }
-      }}
+      size="full"
+      panelClassName={className}
+      closeOnEscape
+      closeOnOverlayClick
     >
-      <div className="flex h-full max-h-[inherit] min-h-[300px] flex-col gap-4 relative">
-        <header className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="text-2xl font-semibold wrap-break-word">{title}</h3>
-          {
-            typeof availableSpots === 'number' && (
-              <span className="flex items-center gap-2">
-                <UserGroupIcon className="size-4" />
+      <ModalHeader className="flex items-center justify-between gap-2 flex-wrap">
+        <h2 className="text-xl font-semibold tracking-tight wrap-break-word">
+          {title}
+        </h2>
+        {typeof availableSpots === 'number' && (
+          <span className="flex items-center gap-2 text-sm font-normal text-charcoal/80">
+            <UserGroupIcon className="size-4" />
+            {customerIds.length}
+            /
+            {availableSpots}
+          </span>
+        )}
+      </ModalHeader>
 
-                <span className="text-sm">
-                  {(customerIds.length)}
-                  /
-                  {availableSpots}
-                </span>
-              </span>
-            )
-          }
-        </header>
-
+      <ModalContent className="flex flex-col gap-4">
         {description && (
           <section>
-            <h4 className="mb-1 text-xs font-medium uppercase tracking-wide text-charcoal/70">Descripción</h4>
-            <p className="flex-1 overflow-y-auto text-sm wrap-break-word">{description}</p>
+            <h4 className="mb-1 text-xs font-medium uppercase tracking-wide text-charcoal/70">
+              Descripción
+            </h4>
+            <p className="wrap-break-word text-sm">{description}</p>
           </section>
         )}
 
@@ -122,27 +114,26 @@ export default function EventModal({
             )}
           </div>
         )}
+      </ModalContent>
 
-        <footer className="mt-auto flex gap-4">
-          <button
-            className="border border-border w-full cursor-pointer rounded p-2"
-            onClick={() => ref?.current?.close?.()}
+      <ModalFooter className="flex gap-4 justify-end items-center">
+        <button
+          type="button"
+          className="w-full cursor-pointer rounded border border-border p-2 max-w-[120px]"
+          onClick={() => ref?.current?.close()}
+        >
+          Cerrar
+        </button>
+        {typeof availableSpots === 'number' && customerIds.length < availableSpots && (
+          <WhatsappLinkButton
+            className="shrink-0"
+            variant="filled"
+            message={`Hola, me gustaría inscribirme en ${title} del ${formatEventDateTime(startDate ?? '')}`}
           >
-            Cerrar
-          </button>
-          {
-            typeof availableSpots === 'number' && customerIds.length < availableSpots && (
-              <WhatsappLinkButton
-                className="shrink-0"
-                variant="filled"
-                message={`Hola, me gustaría inscribirme en ${title} del ${formatEventDateTime(startDate ?? '')}`}
-              >
-                Hay lugares disponibles
-              </WhatsappLinkButton>
-            )
-          }
-        </footer>
-      </div>
-    </dialog>
+            Hay lugares disponibles
+          </WhatsappLinkButton>
+        )}
+      </ModalFooter>
+    </Modal>
   );
 }
