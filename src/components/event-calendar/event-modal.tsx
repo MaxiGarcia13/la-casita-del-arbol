@@ -3,6 +3,7 @@ import { InstagramIcon } from '../../assets/instagram.tsx';
 import { TeacherIcon } from '../../assets/teacher.tsx';
 import { UserGroupIcon } from '../../assets/user-group.tsx';
 import { cn } from '../../utils/classes';
+import { formatDuration } from '../../utils/date';
 import { formatPrice } from '../../utils/numbers';
 import { WhatsappLinkButton } from '../whatsapp-link-button.tsx';
 import { formatEventDateTime } from './utils';
@@ -24,6 +25,7 @@ export default function EventModal({
   teamMembers,
   price,
   instagram,
+  durationMinutes,
 }: EventCardProps) {
   const hasTeachers = (teamMembers?.length ?? teamMembers?.length ?? 0) > 0;
   const teacherNames = teamMembers?.map(t => [t.name, t.surname].filter(Boolean).join(' ').trim() || t.id) ?? [];
@@ -66,8 +68,15 @@ export default function EventModal({
           </section>
         )}
 
-        {(hasTeachers || typeof price === 'number' || instagram) && (
+        {(hasTeachers || typeof price === 'number' || instagram || typeof durationMinutes === 'number') && (
           <div className="flex flex-col gap-3 text-sm">
+            {typeof durationMinutes === 'number' && (
+              <span>
+                Duración:
+                {' '}
+                <strong>{formatDuration(durationMinutes)}</strong>
+              </span>
+            )}
             {hasTeachers && (
               <div className="flex flex-col gap-1">
                 <span className="flex items-center gap-2 font-medium">

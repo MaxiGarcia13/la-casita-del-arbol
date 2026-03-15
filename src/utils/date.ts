@@ -65,3 +65,12 @@ export function getStartTimeFromStartDate(startDate: string): string {
   const d = parseStartDate(startDate);
   return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
 }
+
+/** Format duration in minutes as "X min" or "Xh Ymin". */
+export function formatDuration(minutes: number): string {
+  if (minutes < 60)
+    return `${minutes} min`;
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return m > 0 ? `${h}h ${m}min` : `${h}h`;
+}
