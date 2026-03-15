@@ -35,7 +35,7 @@ export function UpcomingEventCard({ event }: { event: Event }) {
       </header>
       {description.trim()
         ? (
-            <p className="mt-3 line-clamp-3 text-sm wrap-break-word">
+            <p className="mt-3 line-clamp-6 text-sm wrap-break-word">
               {description.trim()}
             </p>
           )
