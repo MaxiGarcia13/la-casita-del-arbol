@@ -46,7 +46,7 @@ export default function EventModal({
         }
       }}
     >
-      <div className="flex h-full max-h-[inherit] min-h-0 flex-col gap-4 relative">
+      <div className="flex h-full max-h-[inherit] min-h-[300px] flex-col gap-4 relative">
         <header className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-2xl font-semibold wrap-break-word">{title}</h3>
           {
