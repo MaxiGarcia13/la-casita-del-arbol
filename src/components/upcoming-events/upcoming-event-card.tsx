@@ -21,8 +21,8 @@ export function UpcomingEventCard({ event }: { event: Event }) {
     instagram,
   } = event;
   const ctaLabel = 'Consultar';
-  const message = `Hola, me gustaría más información sobre: ${title}`;
   const dateLabel = formatEventDateTime(startDate ?? '') + (endDate ? ` hasta ${getStartTimeFromStartDate(endDate)}` : '');
+  const message = `Hola, me gustaría saber más información sobre: ${title}, el día ${dateLabel}.`;
   const hasSpots = typeof availableSpots === 'number';
   const spotsLabel = hasSpots ? `${customerIds.length}/${availableSpots} plazas` : null;
   const teacherNames = teamMembers.map(t => [t.name, t.surname].filter(Boolean).join(' ').trim() || t.id);
