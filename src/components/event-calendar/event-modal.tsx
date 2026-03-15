@@ -34,7 +34,10 @@ export default function EventModal({
     <dialog
       ref={ref}
       className={cn(
-        'bg-surface text-charcoal m-auto max-h-[85vh] w-full max-w-[400px] rounded p-4 outline-none',
+        'bg-surface text-charcoal m-auto w-full max-w-[400px] rounded p-4 outline-none',
+        // 85vh fallback; 85svh on iOS so height fits visible viewport (avoids address bar)
+        'max-h-[85vh] max-h-[85svh]',
+        'pb-[max(1rem,env(safe-area-inset-bottom))]',
         className,
       )}
       onClick={(event) => {
@@ -43,7 +46,7 @@ export default function EventModal({
         }
       }}
     >
-      <div className="flex h-full max-h-[inherit] min-h-[300px] flex-col gap-4 relative">
+      <div className="flex h-full max-h-[inherit] min-h-0 flex-col gap-4 relative">
         <header className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-2xl font-semibold wrap-break-word">{title}</h3>
           {
