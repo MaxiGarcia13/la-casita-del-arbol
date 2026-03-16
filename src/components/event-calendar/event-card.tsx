@@ -37,7 +37,7 @@ export default function EventCard({
             'text-neutral-900 border-l-3',
             type !== 'lesson'
               ? 'bg-secondary/20 border-secondary'
-              : 'bg-primary/20 border-primary',
+              : 'bg-amber-400/20 border-primary',
           )
         }
         data-event-id={id}
