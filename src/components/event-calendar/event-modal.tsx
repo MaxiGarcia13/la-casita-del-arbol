@@ -76,7 +76,7 @@ export default function EventModal({
               <div className="flex flex-col gap-1">
                 <span className="flex items-center gap-2 font-medium">
                   <TeacherIcon className="size-4 shrink-0" />
-                  {teacherNames.length === 1 ? 'Docente' : 'Docentes'}
+                  {teacherNames.length === 1 ? 'Profe' : 'Profes'}
                 </span>
                 <ul className="list-inside list-disc pl-1 text-charcoal/90">
                   {teacherNames.length > 0
