@@ -36,8 +36,8 @@ export default function EventCard({
             className,
             'text-neutral-900 border-l-3',
             type !== 'lesson'
-              ? 'bg-secondary/20 border-secondary'
-              : 'bg-amber-400/20 border-amber-400',
+              ? 'bg-secondary/10 border-secondary'
+              : 'bg-amber-400/40 border-amber-400',
           )
         }
         data-event-id={id}
